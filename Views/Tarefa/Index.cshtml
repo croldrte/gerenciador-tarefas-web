@@ -1,0 +1,15 @@
+@model List<GerenciadorTarefas.Models.Tarefa>
+
+<h2>Tarefas</h2>
+
+<div class="input-group my-4">
+  <input type="text" class="form-control" placeholder="Adicione uma tarefa" aria-label="Adicione uma tarefa" aria-describedby="button-addtask">
+  <button class="btn btn-primary" type="button" id="button-addtask">Adicionar</button>
+</div>
+
+<ul>
+@foreach (var t in Model)
+{
+    <li>@(t.Concluida ? "Concluída" : "Pendente") - @t.Titulo</li>
+}
+</ul>
