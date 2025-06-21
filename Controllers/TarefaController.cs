@@ -19,21 +19,37 @@ namespace GerenciadorTarefas.Controllers
             return View(tarefas);
         }
 
-        public IActionResult Criar()
+        [HttpPost]
+        public IActionResult Adicionar([FromBody] AdicionarDto dto)
         {
-            return View();
+            if (string.IsNullOrWhiteSpace(dto.Titulo))
+                return BadRequest();
+
+            var tarefa = new Tarefa { Titulo = dto.Titulo, Concluida = false };
+            _context.Tarefas.Add(tarefa);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        public class AdicionarDto
+        {
+            public required string Titulo { get; set; }
         }
 
         [HttpPost]
-        public IActionResult Criar(Tarefa tarefa)
+        public IActionResult Atualizar([FromBody] AtualizarDto dto)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Tarefas.Add(tarefa);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(tarefa);
+            var tarefa = _context.Tarefas.Find(dto.Id);
+            if (tarefa == null) return NotFound();
+            tarefa.Concluida = dto.Concluida;
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        public class AtualizarDto
+        {
+            public int Id { get; set; }
+            public bool Concluida { get; set; }
         }
     }
 }

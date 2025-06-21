@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250620214556_Inicial")]
+    [Migration("20250621132741_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -27,9 +27,6 @@ namespace tarefas_web.Migrations
 
                     b.Property<bool>("Concluida")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Descricao")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Titulo")
                         .IsRequired()

@@ -25,9 +25,6 @@ namespace tarefas_web.Migrations
                     b.Property<bool>("Concluida")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Descricao")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("TEXT");

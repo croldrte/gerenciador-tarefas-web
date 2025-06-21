@@ -3,13 +3,17 @@
 <h2>Tarefas</h2>
 
 <div class="input-group my-4">
-  <input type="text" class="form-control" placeholder="Adicione uma tarefa" aria-label="Adicione uma tarefa" aria-describedby="button-addtask">
-  <button class="btn btn-primary" type="button" id="button-addtask">Adicionar</button>
+  <input type="text" class="form-control" id="input-task" placeholder="Adicione uma tarefa"
+    aria-label="Adicione uma tarefa" aria-describedby="btn-add-task">
+  <button class="btn btn-primary" type="button" id="btn-add-task">Adicionar</button>
 </div>
 
-<ul>
 @foreach (var t in Model)
 {
-    <li>@(t.Concluida ? "Concluída" : "Pendente") - @t.Titulo</li>
+  <div class="form-check">    
+    <label class="form-check-label" for="check-task-@t.Id">
+      <input class="form-check-input" type="checkbox" value="" id="check-task-@t.Id" data-id="@t.Id" @(t.Concluida ? "checked" : "")>
+      <span class="task-title@(t.Concluida ? " checked" : "")">@t.Titulo</span>
+    </label>
+  </div>
 }
-</ul>

@@ -17,7 +17,6 @@ namespace tarefas_web.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Titulo = table.Column<string>(type: "TEXT", nullable: false),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true),
                     Concluida = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
