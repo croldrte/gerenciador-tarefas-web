@@ -1,5 +1,34 @@
-﻿// Adicionar tarefa
-document.getElementById('btn-add-task').addEventListener('click', function () {
+﻿// Ativar ou desativar o tema escuro
+const body = document.body;
+const icon = document.getElementById("toggle-theme");
+
+function updateIcon() {
+    if (body.classList.contains("dark-mode")) {
+        icon.classList.remove("bi-moon-fill");
+        icon.classList.add("bi-sun-fill");
+    } else {
+        icon.classList.remove("bi-sun-fill");
+        icon.classList.add("bi-moon-fill");
+    }
+}
+
+if (localStorage.getItem("theme") === "dark") {
+    body.classList.add("dark-mode");
+}
+
+updateIcon();
+
+icon.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+
+    const isDark = body.classList.contains("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    updateIcon();
+});
+
+// Adicionar tarefa
+function adicionarTarefa() {
     const titulo = document.getElementById('input-task').value;
     if (!titulo.trim()) return;
 
@@ -15,6 +44,15 @@ document.getElementById('btn-add-task').addEventListener('click', function () {
             if (response.ok) location.reload();
             else alert('Erro ao adicionar tarefa');
         });
+}
+
+document.getElementById('btn-add-task').addEventListener('click', adicionarTarefa);
+
+document.getElementById('input-task').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        adicionarTarefa();
+    }
 });
 
 // Atualizar tarefa

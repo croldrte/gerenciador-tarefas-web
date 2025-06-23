@@ -1,4 +1,46 @@
+:root {
+  --bg-color: #f4f5f7;
+  --soft-bg-color: white;
+  --text-color: #303030;
+  --bs-primary: #bb86fc;
+  --bs-primary-hover: #9b5dfc;
+  --bs-primary-disabled: #d2bffb;
+  --bs-primary-text-disabled: #a288cc;
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
 .task-title.checked {
   text-decoration: line-through;
   color: gray;
+}
+
+.container {
+  max-width: 425px;
+  color: var(--text-color);
+}
+
+.bg {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: var(--soft-bg-color);
+}
+
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+  background-color: var(--bs-primary-disabled);
+  border-color: var(--bs-primary-disabled);
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  background-color: var(--bs-primary-hover);
+  border-color: var(--bs-primary-hover);
 }
