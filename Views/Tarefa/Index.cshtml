@@ -4,7 +4,7 @@
 
 <div class="input-group my-4">
   <input type="text" class="form-control" id="input-task" placeholder="Adicione uma tarefa"
-    aria-label="Adicione uma tarefa" aria-describedby="btn-add-task">
+    aria-label="Escrever tarefa" aria-describedby="btn-add-task">
   <button class="btn btn-primary" type="button" id="btn-add-task">Adicionar</button>
 </div>
 
@@ -15,7 +15,7 @@
       <input class="form-check-input" type="checkbox" value="" data-id="@t.Id" @(t.Concluida ? "checked" : "")>
       <div class="d-flex justify-content-between align-items-center">
         <span class="task-title@(t.Concluida ? " checked" : "")">@t.Titulo</span>
-        <i class="bi bi-x cursor-pointer" role="button" aria-label="Excluir tarefa"></i>
+        <i class="bi bi-x cursor-pointer" role="button" tabindex="0" aria-label="Excluir tarefa" data-id="@t.Id"></i>
       </div>
     </label>
   </div>

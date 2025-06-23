@@ -51,5 +51,20 @@ namespace GerenciadorTarefas.Controllers
             public int Id { get; set; }
             public bool Concluida { get; set; }
         }
+
+        [HttpPost]
+        public IActionResult Excluir([FromBody] ExcluirDto dto)
+        {
+            var tarefa = _context.Tarefas.Find(dto.Id);
+            if (tarefa == null) return NotFound();
+            _context.Tarefas.Remove(tarefa);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        public class ExcluirDto
+        {
+            public int Id { get; set; }
+        }
     }
 }

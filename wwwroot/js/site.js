@@ -1,4 +1,5 @@
-﻿document.getElementById('btn-add-task').addEventListener('click', function() {
+﻿// Adicionar tarefa
+document.getElementById('btn-add-task').addEventListener('click', function () {
     const titulo = document.getElementById('input-task').value;
     if (!titulo.trim()) return;
 
@@ -10,14 +11,15 @@
         },
         body: JSON.stringify({ titulo })
     })
-    .then(response => {
-        if (response.ok) location.reload();
-        else alert('Erro ao adicionar tarefa');
-    });
+        .then(response => {
+            if (response.ok) location.reload();
+            else alert('Erro ao adicionar tarefa');
+        });
 });
 
-document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
-    checkbox.addEventListener('change', function() {
+// Atualizar tarefa
+document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
         const id = this.getAttribute('data-id');
         const concluida = this.checked;
         fetch('/Tarefa/Atualizar', {
@@ -28,29 +30,50 @@ document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
             },
             body: JSON.stringify({ id, concluida })
         }).then(response => {
-            if (!response.ok) alert('Erro ao atualizar tarefa');
+            if (response.ok) location.reload();
+            else alert('Erro ao atualizar tarefa');
         });
     });
 });
 
+// Estilizar tarefas concluídas
 const checkboxes = document.querySelectorAll('.form-check-input');
 
 checkboxes.forEach(chk => {
-  chk.addEventListener('change', () => {
-    const text = chk.nextElementSibling;
-    if (chk.checked) {
-      text.classList.add('checked');
-    } else {
-      text.classList.remove('checked');
-    }
-  });
+    chk.addEventListener('change', () => {
+        const text = chk.nextElementSibling;
+        if (chk.checked) {
+            text.classList.add('checked');
+        } else {
+            text.classList.remove('checked');
+        }
+    });
 });
 
+// Desabilitar botão de adicionar tarefa se o campo estiver vazio
 const inputTask = document.getElementById('input-task');
 const btnAddTask = document.getElementById('btn-add-task');
 
 btnAddTask.disabled = true;
 
-inputTask.addEventListener('input', function() {
+inputTask.addEventListener('input', function () {
     btnAddTask.disabled = !inputTask.value.trim();
+});
+
+// Excluir tarefa
+document.querySelectorAll('.bi-x').forEach(el => {
+    el.addEventListener('click', () => {
+        const id = el.getAttribute('data-id');
+        fetch('/Tarefa/Excluir', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+            },
+            body: JSON.stringify({ id })
+        }).then(response => {
+            if (response.ok) location.reload();
+            else alert('Erro ao excluir tarefa');
+        });
+    });
 });
