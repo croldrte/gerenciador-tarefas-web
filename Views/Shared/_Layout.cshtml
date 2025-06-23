@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site-dark.css" asp-append-version="true" />
 </head>
 
-<body>
-
+<body class="d-flex align-items-center justify-content-center min-vh-100">
+    
     <main role="main">
-        <div class="container my-5 p-5">
+        <div class="container">
             @RenderBody()
         </div>
     </main>
