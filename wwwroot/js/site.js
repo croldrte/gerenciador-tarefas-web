@@ -27,6 +27,13 @@ icon.addEventListener("click", () => {
     updateIcon();
 });
 
+icon.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.keyCode === 13) {
+        event.preventDefault();
+        icon.click();
+    }
+});
+
 // Adicionar tarefa
 function adicionarTarefa() {
     const titulo = document.getElementById('input-task').value;
@@ -72,6 +79,14 @@ document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
             else alert('Erro ao atualizar tarefa');
         });
     });
+
+    checkbox.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            event.preventDefault();
+            this.checked = !this.checked;
+            this.dispatchEvent(new Event('change'));
+        }
+    });
 });
 
 // Estilizar tarefas concluídas
@@ -113,5 +128,12 @@ document.querySelectorAll('.bi-x').forEach(el => {
             if (response.ok) location.reload();
             else alert('Erro ao excluir tarefa');
         });
+    });
+
+    el.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            event.preventDefault();
+            el.click();
+        }
     });
 });
