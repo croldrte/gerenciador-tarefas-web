@@ -1,4 +1,4 @@
-namespace tarefas_web.Models;
+namespace GerenciadorTarefas.Models;
 
 public class ErrorViewModel
 {
