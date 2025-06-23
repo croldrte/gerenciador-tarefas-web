@@ -1,11 +1,9 @@
 services:
   - type: web
     name: aspnet-mvc-app
-    runtime: dotnet
-    buildCommand: dotnet publish -c Release -o out
-    startCommand: dotnet out/tarefas-web.dll
     env: 
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+    dockerfilePath: ./Dockerfile
     autoDeploy: true
     pullRequestPreviewsEnabled: true
