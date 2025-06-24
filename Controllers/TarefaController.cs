@@ -22,13 +22,13 @@ namespace GerenciadorTarefas.Controllers
         [HttpPost]
         public IActionResult Adicionar([FromBody] AdicionarDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Titulo))
+            if (string.IsNullOrWhiteSpace(dto.Titulo) || dto.Titulo.Length > 50)
                 return BadRequest();
 
             var tarefa = new Tarefa { Titulo = dto.Titulo, Concluida = false };
             _context.Tarefas.Add(tarefa);
             _context.SaveChanges();
-            return Ok();
+            return Json(new { id = tarefa.Id });
         }
 
         public class AdicionarDto
@@ -65,6 +65,15 @@ namespace GerenciadorTarefas.Controllers
         public class ExcluirDto
         {
             public int Id { get; set; }
+        }
+
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            var tarefas = _context.Tarefas
+                .Select(t => new { id = t.Id, titulo = t.Titulo, concluida = t.Concluida })
+                .ToList();
+            return Json(tarefas);
         }
     }
 }

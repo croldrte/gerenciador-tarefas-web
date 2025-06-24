@@ -1,9 +1,8 @@
 body.dark-mode {
-  --bg-color: #1a1125;
-  --soft-bg-color: #261d32;
-  --text-color: #f5f3f8;
+  --bs-body-bg: #1a1125;
+  --bs-secondary-bg: #2e253d;
+  --bs-body-color: #f5f3f8;
   --bs-primary: #5b31a7;
   --bs-primary-hover: #6d43bd;
-  --bs-primary-disabled: #b3aadb;
   --bs-primary-focus: #4a2690;
 }
