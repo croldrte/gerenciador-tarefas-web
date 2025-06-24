@@ -21,9 +21,10 @@ h2 {
   opacity: .5 !important;
 }
 
-#btn-delete-task:hover,
+.bi-x:hover,
 #toggle-theme:hover {
   color: var(--bs-primary-hover);
+  transition: color 0.2s;
 }
 
 .btn-primary {
@@ -74,7 +75,7 @@ h2 {
 }
 
 #form-task,
-.tasks-bg {
+#tasks {
   border-radius: 12px;
 }
 
@@ -92,6 +93,13 @@ h2 {
   border-bottom-left-radius: 0;
 }
 
+.list-group-item {
+  color: var(--bs-body-color);
+  background: transparent;
+  border: none;
+  padding: 2px 0;
+}
+
 .pulse {
   animation: pulse 0.5s ease-in-out;
 }
@@ -101,7 +109,7 @@ h2 {
   opacity: .5
 }
 
-.tasks-bg {
+#tasks {
   padding: 20px;
   background-color: var(--bs-body-bg);
 }
