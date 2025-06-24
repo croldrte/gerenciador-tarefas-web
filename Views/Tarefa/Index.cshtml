@@ -20,7 +20,7 @@
         <input class="form-check-input" type="checkbox" value="" data-id="@t.Id" @(t.Concluida ? "checked" : "")>
         <div class="d-flex justify-content-between align-items-center">
           <span class="task-title @(t.Concluida ? "checked" : "")">@t.Titulo</span>
-          <i class="bi bi-x cursor-pointer" role="button" tabindex="0" aria-label="Excluir tarefa" data-id="@t.Id"></i>
+          <i id="btn-delete-task" class="bi bi-x cursor-pointer" role="button" tabindex="0" aria-label="Excluir tarefa" data-id="@t.Id"></i>
         </div>
       </label>
     </div>

@@ -13,11 +13,17 @@ body {
 
 h2 {
   font-family: "Pacifico", cursive;
+  user-select: none;
 }
 
 ::placeholder {
   color: var(--bs-body-color) !important;
   opacity: .5 !important;
+}
+
+#btn-delete-task:hover,
+#toggle-theme:hover {
+  color: var(--bs-primary-hover);
 }
 
 .btn-primary {
@@ -67,7 +73,8 @@ h2 {
   border-color: var(--bs-primary);
 }
 
-#form-task, .tasks-bg {
+#form-task,
+.tasks-bg {
   border-radius: 12px;
 }
 
