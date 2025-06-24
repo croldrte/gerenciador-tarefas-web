@@ -1,6 +1,6 @@
 :root {
   --bs-body-bg: white;
-  --bs-secondary-bg: #f4f5f7;
+  --bs-secondary-bg: #e7e8ea;
   --bs-body-color: #303030;
   --bs-primary: #9b78cd;
   --bs-primary-hover: #ad8edc;
@@ -21,9 +21,14 @@ h2 {
   opacity: .5 !important;
 }
 
-#btn-delete-task:hover,
+.btn-delete-task {  
+  padding-left: 12px;
+}
+
+.btn-delete-task:hover,
 #toggle-theme:hover {
   color: var(--bs-primary-hover);
+  transition: color 0.2s;
 }
 
 .btn-primary {
@@ -74,7 +79,7 @@ h2 {
 }
 
 #form-task,
-.tasks-bg {
+#tasks {
   border-radius: 12px;
 }
 
@@ -92,8 +97,28 @@ h2 {
   border-bottom-left-radius: 0;
 }
 
-.pulse {
-  animation: pulse 0.5s ease-in-out;
+.list-group-item {
+  color: var(--bs-body-color);
+  background: transparent;
+  border: none;
+  padding: 2px 0;
+}
+
+.list-group-item.d-flex.align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input {
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.task-title {
+  flex: 1 1 0;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .task-title.checked {
@@ -101,9 +126,13 @@ h2 {
   opacity: .5
 }
 
-.tasks-bg {
+#tasks {
   padding: 20px;
   background-color: var(--bs-body-bg);
+}
+
+.pulse {
+  animation: pulse 0.5s ease-in-out;
 }
 
 @keyframes pulse {
