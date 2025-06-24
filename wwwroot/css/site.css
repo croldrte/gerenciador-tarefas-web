@@ -1,32 +1,29 @@
 :root {
-  --bg-color: #f4f5f7;
-  --soft-bg-color: white;
-  --text-color: #303030;
+  --bs-body-bg: white;
+  --bs-secondary-bg: #f4f5f7;
+  --bs-body-color: #303030;
   --bs-primary: #9b78cd;
   --bs-primary-hover: #ad8edc;
-  --bs-primary-disabled: #d7cde6;
-  --bs-primary-text-disabled: #f5f3f8;
   --bs-primary-focus: #7a5eb0;
 }
 
 body {
-  background-color: var(--soft-bg-color);
+  background-color: var(--bs-secondary-bg);
 }
 
-.task-title.checked {
-  text-decoration: line-through;
-  color: gray;
+h2 {
+  font-family: "Pacifico", cursive;
+  user-select: none;
 }
 
-.container {
-  max-width: 425px;
-  color: var(--text-color);
+::placeholder {
+  color: var(--bs-body-color) !important;
+  opacity: .5 !important;
 }
 
-.bg {
-  padding: 20px;
-  border-radius: 12px;
-  background-color: var(--bg-color);
+#btn-delete-task:hover,
+#toggle-theme:hover {
+  color: var(--bs-primary-hover);
 }
 
 .btn-primary {
@@ -36,9 +33,8 @@ body {
 
 .btn-primary:disabled,
 .btn-primary.disabled {
-  background-color: var(--bs-primary-disabled);
-  border-color: var(--bs-primary-disabled);
-  opacity: 1;
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
 }
 
 .btn-primary:hover {
@@ -51,15 +47,75 @@ body {
   border-color: var(--bs-primary-hover);
 }
 
+.container {
+  max-width: 425px;
+  color: var(--bs-body-color);
+}
+
 .form-control,
 .form-control:focus,
 .form-check-input {
-  background-color: var(--soft-bg-color);
   border: 0;
-  color: var(--text-color);
+}
+
+.form-control,
+.form-control:focus {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color)
+}
+
+.form-check-input {
+  background-color: var(--bs-secondary-bg)
 }
 
 .form-check-input:checked {
   background-color: var(--bs-primary);
   border-color: var(--bs-primary);
+}
+
+#form-task,
+.tasks-bg {
+  border-radius: 12px;
+}
+
+#form-task .form-control {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#form-task .btn {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.pulse {
+  animation: pulse 0.5s ease-in-out;
+}
+
+.task-title.checked {
+  text-decoration: line-through;
+  opacity: .5
+}
+
+.tasks-bg {
+  padding: 20px;
+  background-color: var(--bs-body-bg);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

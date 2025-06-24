@@ -1,14 +1,22 @@
-﻿// Ativar ou desativar o tema escuro
+﻿// Ativar ou desativar tema escuro
 const body = document.body;
-const icon = document.getElementById("toggle-theme");
+const btn = document.getElementById('toggle-theme');
 
-function updateIcon() {
+btn.addEventListener('click', () => {
+    btn.classList.remove('pulse');
+
+    void btn.offsetWidth;
+
+    btn.classList.add('pulse');
+});
+
+function updateBtn() {
     if (body.classList.contains("dark-mode")) {
-        icon.classList.remove("bi-moon-fill");
-        icon.classList.add("bi-sun-fill");
+        btn.classList.remove("bi-sun-fill");
+        btn.classList.add("bi-moon-fill");
     } else {
-        icon.classList.remove("bi-sun-fill");
-        icon.classList.add("bi-moon-fill");
+        btn.classList.remove("bi-moon-fill");
+        btn.classList.add("bi-sun-fill");
     }
 }
 
@@ -16,21 +24,21 @@ if (localStorage.getItem("theme") === "dark") {
     body.classList.add("dark-mode");
 }
 
-updateIcon();
+updateBtn();
 
-icon.addEventListener("click", () => {
+btn.addEventListener("click", () => {
     body.classList.toggle("dark-mode");
 
     const isDark = body.classList.contains("dark-mode");
     localStorage.setItem("theme", isDark ? "dark" : "light");
 
-    updateIcon();
+    updateBtn();
 });
 
-icon.addEventListener("keydown", function (event) {
+btn.addEventListener("keydown", function (event) {
     if (event.key === "Enter" || event.keyCode === 13) {
         event.preventDefault();
-        icon.click();
+        btn.click();
     }
 });
 
@@ -62,6 +70,16 @@ document.getElementById('input-task').addEventListener('keydown', function (even
     }
 });
 
+// Desabilitar botão de adicionar tarefa se o campo estiver vazio
+const inputTask = document.getElementById('input-task');
+const btnAddTask = document.getElementById('btn-add-task');
+
+btnAddTask.disabled = true;
+
+inputTask.addEventListener('input', function () {
+    btnAddTask.disabled = !inputTask.value.trim();
+});
+
 // Atualizar tarefa
 document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
     checkbox.addEventListener('change', function () {
@@ -89,7 +107,7 @@ document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
     });
 });
 
-// Estilizar tarefas concluídas
+// Riscar tarefas concluídas
 const checkboxes = document.querySelectorAll('.form-check-input');
 
 checkboxes.forEach(chk => {
@@ -101,16 +119,6 @@ checkboxes.forEach(chk => {
             text.classList.remove('checked');
         }
     });
-});
-
-// Desabilitar botão de adicionar tarefa se o campo estiver vazio
-const inputTask = document.getElementById('input-task');
-const btnAddTask = document.getElementById('btn-add-task');
-
-btnAddTask.disabled = true;
-
-inputTask.addEventListener('input', function () {
-    btnAddTask.disabled = !inputTask.value.trim();
 });
 
 // Excluir tarefa
