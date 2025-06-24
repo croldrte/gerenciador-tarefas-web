@@ -20,22 +20,6 @@ h2 {
   opacity: .5 !important;
 }
 
-.task-title.checked {
-  text-decoration: line-through;
-  opacity: .5
-}
-
-.container {
-  max-width: 425px;
-  color: var(--bs-body-color);
-}
-
-.bg {
-  padding: 20px;
-  border-radius: 12px;
-  background-color: var(--bs-body-bg);
-}
-
 .btn-primary {
   background-color: var(--bs-primary);
   border-color: var(--bs-primary);
@@ -57,12 +41,25 @@ h2 {
   border-color: var(--bs-primary-hover);
 }
 
+.container {
+  max-width: 425px;
+  color: var(--bs-body-color);
+}
+
 .form-control,
 .form-control:focus,
 .form-check-input {
-  background-color: var(--bs-secondary-bg);
   border: 0;
-  color: var(--bs-body-color);
+}
+
+.form-control,
+.form-control:focus {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color)
+}
+
+.form-check-input {
+  background-color: var(--bs-secondary-bg)
 }
 
 .form-check-input:checked {
@@ -70,8 +67,36 @@ h2 {
   border-color: var(--bs-primary);
 }
 
+#form-task, .tasks-bg {
+  border-radius: 12px;
+}
+
+#form-task .form-control {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#form-task .btn {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .pulse {
   animation: pulse 0.5s ease-in-out;
+}
+
+.task-title.checked {
+  text-decoration: line-through;
+  opacity: .5
+}
+
+.tasks-bg {
+  padding: 20px;
+  background-color: var(--bs-body-bg);
 }
 
 @keyframes pulse {

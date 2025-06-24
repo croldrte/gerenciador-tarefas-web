@@ -1,17 +1,17 @@
 @model List<GerenciadorTarefas.Models.Tarefa>
 
-<div class="d-flex justify-content-between align-items-center mb-2">
+<div class="d-flex justify-content-between align-items-center">
   <h2 class="d-inline">Tarefas</h2>
   <i id="toggle-theme" class="bi bi-sun-fill" role="button" tabindex="0"></i>
 </div>
 
-<div class="bg">
+<form id="form-task" class="input-group mt-2 mb-3" onsubmit="adicionarTarefa(event)">
+  <input type="text" class="form-control" id="input-task" placeholder="Escreva uma tarefa..."
+    aria-label="Escrever tarefa" aria-describedby="btn-add-task" autocomplete="off">
+  <button class="btn btn-primary" type="submit" id="btn-add-task">Adicionar</button>
+</form>
 
-  <form id="form-task" class="input-group @(Model.Count() != 0 ? "mb-4" : "")" onsubmit="adicionarTarefa(event)">
-    <input type="text" class="form-control" id="input-task" placeholder="Escreva uma tarefa..."
-      aria-label="Escrever tarefa" aria-describedby="btn-add-task" autocomplete="off">
-    <button class="btn btn-primary" type="submit" id="btn-add-task">Adicionar</button>
-  </form>
+<div class="tasks-bg">
 
   @foreach (var t in Model)
   {
