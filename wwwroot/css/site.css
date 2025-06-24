@@ -21,7 +21,11 @@ h2 {
   opacity: .5 !important;
 }
 
-.bi-x:hover,
+.btn-delete-task {  
+  padding-left: 12px;
+}
+
+.btn-delete-task:hover,
 #toggle-theme:hover {
   color: var(--bs-primary-hover);
   transition: color 0.2s;
@@ -100,8 +104,21 @@ h2 {
   padding: 2px 0;
 }
 
-.pulse {
-  animation: pulse 0.5s ease-in-out;
+.list-group-item.d-flex.align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input {
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.task-title {
+  flex: 1 1 0;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .task-title.checked {
@@ -112,6 +129,10 @@ h2 {
 #tasks {
   padding: 20px;
   background-color: var(--bs-body-bg);
+}
+
+.pulse {
+  animation: pulse 0.5s ease-in-out;
 }
 
 @keyframes pulse {

@@ -128,7 +128,7 @@ function criarTarefaNoDOM(id, titulo, concluida) {
     if (concluida) span.classList.add('checked');
 
     const btnExcluir = document.createElement('i');
-    btnExcluir.className = 'bi bi-x ms-auto';
+    btnExcluir.className = 'btn-delete-task bi bi-x ms-auto';
     btnExcluir.setAttribute('tabindex', '0');
     btnExcluir.setAttribute('data-id', id);
     btnExcluir.setAttribute('role', 'button');

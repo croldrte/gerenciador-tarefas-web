@@ -22,7 +22,7 @@ namespace GerenciadorTarefas.Controllers
         [HttpPost]
         public IActionResult Adicionar([FromBody] AdicionarDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Titulo))
+            if (string.IsNullOrWhiteSpace(dto.Titulo) || dto.Titulo.Length > 50)
                 return BadRequest();
 
             var tarefa = new Tarefa { Titulo = dto.Titulo, Concluida = false };
