@@ -8,12 +8,7 @@
 }
 
 body {
-  background-color: var(--bs-secondary-bg);
-}
-
-h2 {
-  font-family: "Pacifico", cursive;
-  user-select: none;
+  background-color: var(--bs-body-bg);
 }
 
 ::placeholder {
@@ -21,7 +16,11 @@ h2 {
   opacity: .5 !important;
 }
 
-.btn-delete-task {  
+.bi {
+  font-style: normal;
+}
+
+.btn-delete-task {
   padding-left: 12px;
 }
 
@@ -52,25 +51,19 @@ h2 {
   border-color: var(--bs-primary-hover);
 }
 
-.container {
-  max-width: 425px;
-  color: var(--bs-body-color);
-}
-
 .form-control,
 .form-control:focus,
 .form-check-input {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
   border: 0;
-}
-
-.form-control,
-.form-control:focus {
-  background-color: var(--bs-body-bg);
-  color: var(--bs-body-color)
+  resize: none;
 }
 
 .form-check-input {
-  background-color: var(--bs-secondary-bg)
+  background-color: var(--bs-secondary-bg);
+  flex-shrink: 0;
+  margin-right: 8px;
 }
 
 .form-check-input:checked {
@@ -109,9 +102,10 @@ h2 {
   align-items: center;
 }
 
-.form-check-input {
-  flex-shrink: 0;
-  margin-right: 8px;
+.navbar-brand {
+  font-size: inherit;
+  text-transform: lowercase;
+  user-select: none;
 }
 
 .task-title {
@@ -128,7 +122,6 @@ h2 {
 
 #tasks {
   padding: 20px;
-  background-color: var(--bs-body-bg);
 }
 
 .pulse {

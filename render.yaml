@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: aspnet-mvc-app
-    env: 
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-    dockerfilePath: ./Dockerfile
-    autoDeploy: true
-    pullRequestPreviewsEnabled: true
