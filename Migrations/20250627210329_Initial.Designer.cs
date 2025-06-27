@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManager.Data;
 
@@ -10,9 +11,11 @@ using TaskManager.Data;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250627210329_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -35,32 +38,6 @@ namespace tarefas_web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Color = "#FF5733",
-                            Name = "Trabalho"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Color = "#33FF57",
-                            Name = "Pessoal"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Color = "#3357FF",
-                            Name = "Estudo"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Color = "#FF33A1",
-                            Name = "Saúde"
-                        });
                 });
 
             modelBuilder.Entity("TaskManager.Models.TaskItem", b =>
