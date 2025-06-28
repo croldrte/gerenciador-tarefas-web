@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TaskManager.Data;
 using TaskManager.ViewModels;
 
@@ -13,15 +14,18 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var tasks = _context.Tasks.ToList();
-        var categories = _context.Categories.ToList();
+        var tasks = _context.Tasks
+            .Include(t => t.Category)
+            .OrderByDescending(t => t.DateTime.HasValue)
+            .ThenByDescending(t => t.DateTime)
+            .ToList();
 
-        var viewModel = new TaskAndCategoryViewModel
+        var model = new TaskAndCategoryViewModel
         {
             Tasks = tasks,
-            Categories = categories
+            Categories = _context.Categories.ToList()
         };
 
-        return View(viewModel);
+        return View(model);
     }
 }

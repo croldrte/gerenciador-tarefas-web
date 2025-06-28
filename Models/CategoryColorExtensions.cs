@@ -6,13 +6,13 @@ namespace TaskManager.Models
         {
             return colorName switch
             {
-                "Red" => "#FF5733",
-                "Green" => "#33FF57",
-                "Blue" => "#3357FF",
-                "Pink" => "#FF33A8",
-                "Yellow" => "#F0E68C",
-                "Purple" => "#8A2BE2",
-                "Orange" => "#FFA500",
+                "Red" => "#FF938B",
+                "Green" => "#6AC46D",
+                "Blue" => "#6CB6FF",
+                "Pink" => "#FC8DC7",
+                "Yellow" => "#DAAA3F",
+                "Purple" => "#CB9EFB",
+                "Orange" => "#F69D50",
                 _ => "#000000"
             };
         }

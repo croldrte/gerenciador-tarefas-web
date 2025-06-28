@@ -15,8 +15,12 @@ namespace TaskManager.Controllers
 
         public IActionResult Index()
         {
-            var tasks = _context.Tasks.ToList();
-            return View(tasks);
+            var model = new ViewModels.TaskAndCategoryViewModel
+            {
+                Tasks = _context.Tasks.ToList(),
+                Categories = _context.Categories.ToList()
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -27,22 +31,28 @@ namespace TaskManager.Controllers
                 _context.Tasks.Add(task);
                 _context.SaveChanges();
 
-                var category = _context.Categories.FirstOrDefault(c => c.Id == task.CategoryId);
+                var savedTask = _context.Tasks.FirstOrDefault(t => t.Id == task.Id);
+                if (savedTask == null)
+                {
+                    return Json(new { success = false, errors = new[] { "Task could not be found after saving." } });
+                }
+                var category = _context.Categories.FirstOrDefault(c => c.Id == savedTask.CategoryId);
+
                 return Json(new
                 {
                     success = true,
                     task = new
                     {
-                        task.Id,
-                        task.Title,
-                        task.Description,
-                        task.DateTime,
-                        CategoryName = category?.Name,
-                        CategoryColor = category?.Color
+                        savedTask.Id,
+                        savedTask.Title,
+                        savedTask.Description,
+                        savedTask.DateTime,
+                        CategoryName = category?.Name ?? "",
+                        CategoryColor = category != null ? category.Color.ToHex() : "#000000"
                     }
                 });
             }
-            return Json(new { success = false });
+            return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
         }
 
         [HttpGet]
@@ -89,8 +99,8 @@ namespace TaskManager.Controllers
                     existing.Title,
                     existing.Description,
                     existing.DateTime,
-                    CategoryName = category?.Name,
-                    CategoryColor = category?.Color
+                    CategoryName = category?.Name ?? "",
+                    CategoryColor = category != null ? category.Color.ToHex() : "#000000"
                 }
             });
         }

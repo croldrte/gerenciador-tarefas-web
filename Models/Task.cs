@@ -20,7 +20,7 @@ namespace TaskManager.Models
 
         public bool IsCompleted { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         public Category? Category { get; set; }
     }

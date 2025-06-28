@@ -51,11 +51,6 @@ body {
   border-color: var(--bs-primary-hover);
 }
 
-.category-name {
-  text-transform: lowercase;
-}
-
-
 .form-control,
 .form-control:focus,
 .form-check-input {
@@ -95,8 +90,11 @@ body {
   border-bottom-left-radius: 0;
 }
 
-.form-label {
-
+input[type="checkbox"].form-check-input {
+  border: 1px solid #ced4da;
+  border-radius: 50% !important;
+  width: 1.2em;
+  height: 1.2em;
 }
 
 .list-group-item {
@@ -114,7 +112,6 @@ body {
 .navbar-brand {
   font-weight: 500;
   font-size: inherit;
-  text-transform: lowercase;
   user-select: none;
 }
 
@@ -132,6 +129,10 @@ body {
 
 #tasks {
   padding: 20px;
+}
+
+.text-primary {
+  color: var(--bs-primary) !important;
 }
 
 .pulse {
