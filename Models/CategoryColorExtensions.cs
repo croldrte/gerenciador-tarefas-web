@@ -2,18 +2,18 @@ namespace TaskManager.Models
 {
     public static class CategoryColorExtensions
     {
-        public static string ToHex(this string colorName)
+        public static string ToRGB(this string colorName)
         {
             return colorName switch
             {
-                "Red" => "#FF938B",
-                "Green" => "#6AC46D",
-                "Blue" => "#6CB6FF",
-                "Pink" => "#FC8DC7",
-                "Yellow" => "#DAAA3F",
-                "Purple" => "#CB9EFB",
-                "Orange" => "#F69D50",
-                _ => "#000000"
+                "Red" => "255, 147, 139",
+                "Green" => "106, 196, 109",
+                "Blue" => "108, 182, 255",
+                "Pink" => "252, 141, 199",
+                "Yellow" => "218, 170, 63",
+                "Purple" => "203, 158, 251",
+                "Orange" => "246, 157, 80",
+                _ => "0, 0, 0"
             };
         }
     }

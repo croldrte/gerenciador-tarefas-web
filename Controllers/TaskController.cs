@@ -48,7 +48,7 @@ namespace TaskManager.Controllers
                         savedTask.Description,
                         savedTask.DateTime,
                         CategoryName = category?.Name ?? "",
-                        CategoryColor = category != null ? category.Color.ToHex() : "#000000"
+                        CategoryColor = category != null ? category.Color.ToRGB() : "#000000"
                     }
                 });
             }
@@ -60,7 +60,8 @@ namespace TaskManager.Controllers
         {
             var task = _context.Tasks
                 .Where(t => t.Id == id)
-                .Select(t => new {
+                .Select(t => new
+                {
                     id = t.Id,
                     title = t.Title,
                     description = t.Description,
@@ -100,7 +101,7 @@ namespace TaskManager.Controllers
                     existing.Description,
                     existing.DateTime,
                     CategoryName = category?.Name ?? "",
-                    CategoryColor = category != null ? category.Color.ToHex() : "#000000"
+                    CategoryColor = category != null ? category.Color.ToRGB() : "#000000"
                 }
             });
         }
@@ -113,6 +114,18 @@ namespace TaskManager.Controllers
                 return Json(new { success = false });
 
             _context.Tasks.Remove(task);
+            _context.SaveChanges();
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult Done(int id, bool isCompleted)
+        {
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+            if (task == null)
+                return Json(new { success = false });
+
+            task.IsCompleted = isCompleted;
             _context.SaveChanges();
             return Json(new { success = true });
         }

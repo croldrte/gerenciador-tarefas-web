@@ -17,7 +17,7 @@ public class HomeController : Controller
         var tasks = _context.Tasks
             .Include(t => t.Category)
             .OrderByDescending(t => t.DateTime.HasValue)
-            .ThenByDescending(t => t.DateTime)
+            .ThenBy(t => t.DateTime)
             .ToList();
 
         var model = new TaskAndCategoryViewModel

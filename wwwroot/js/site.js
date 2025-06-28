@@ -47,8 +47,8 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
 
         div.innerHTML = `
             <div class="d-flex align-items-center gap-3">
-                <input type="checkbox" class="form-check-input task-check" />
-                <span class="task-title">${result.task.Title}</span>
+                <input type="checkbox" class="form-check-input task-check" ${result.task.IsCompleted ? "checked" : ""} />
+                <span class="task-title${result.task.IsCompleted ? " checked" : ""}">${result.task.Title}</span>
             </div>
             <div class="d-flex gap-5 align-items-center">
                 <span class="task-category">
@@ -91,7 +91,6 @@ document.querySelector('.col-9').addEventListener('click', async function(e) {
         document.getElementById('edit-task-title').value = task.title;
         document.getElementById('edit-task-description').value = task.description;
 
-        // Antes de marcar a categoria, desmarque todas
         document.querySelectorAll('input[name="CategoryId"]').forEach(r => r.checked = false);
         if (task.categoryId) {
             document.getElementById('edit-cat-' + task.categoryId).checked = true;
@@ -131,7 +130,7 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
         Title: form['Title'].value,
         Description: form['Description'].value,
         DateTime: dateTime,
-        CategoryId: form['CategoryId'].value || null // <-- aqui!
+        CategoryId: form['CategoryId'].value || null
     };
 
     const response = await fetch('/Task/Edit', {
@@ -190,13 +189,23 @@ document.getElementById('btn-confirm-delete').addEventListener('click', async fu
 
 // Marcar Tarefa como Concluída
 document.querySelectorAll('.task-check').forEach(function(check) {
-    check.addEventListener('change', function() {
-        const title = this.closest('.task-item').querySelector('.task-title');
-        if (this.checked) {
+    check.addEventListener('change', async function() {
+        const taskDiv = this.closest('.task-item');
+        const taskId = taskDiv.getAttribute('data-task-id-div');
+        const isCompleted = this.checked;
+
+        const title = taskDiv.querySelector('.task-title');
+        if (isCompleted) {
             title.classList.add('checked');
         } else {
             title.classList.remove('checked');
         }
+
+        await fetch('/Task/Done', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `id=${taskId}&isCompleted=${isCompleted}`
+        });
     });
 });
 
@@ -236,7 +245,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (dateInput && timeInput) {
         dateInput.addEventListener('input', toggleTimeInput);
-        // Inicializa o estado ao carregar a página/modal
         toggleTimeInput();
     }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const hideCompletedSaved = localStorage.getItem('hideCompletedTasks');
+    const checkbox = document.querySelector('input[type="checkbox"].form-check-input:not(.task-check)');
+    if (hideCompletedSaved === '1') {
+        checkbox.checked = true;
+        checkbox.dispatchEvent(new Event('change'));
+    } else {
+        checkbox.checked = false;
+        checkbox.dispatchEvent(new Event('change'));
+    }
+});
+
+// Filtrar tarefas concluídas ao marcar a checkbox
+document.querySelector('input[type="checkbox"].form-check-input:not(.task-check)').addEventListener('change', function () {
+    const hideCompleted = this.checked;
+    localStorage.setItem('hideCompletedTasks', hideCompleted ? '1' : '0'); // <-- Adicione esta linha
+    const tasksContainer = document.querySelector('.col-9');
+    const allTaskRows = Array.from(tasksContainer.querySelectorAll('.task-row'));
+
+    // Remove todas as linhas do container
+    allTaskRows.forEach(row => row.remove());
+
+    let filteredRows;
+    if (hideCompleted) {
+        // Apenas tarefas NÃO concluídas
+        filteredRows = allTaskRows.filter(row => !row.querySelector('.task-check').checked);
+    } else {
+        // Todas as tarefas
+        filteredRows = allTaskRows;
+    }
+
+    // Remove todos os <hr> das task-row
+    filteredRows.forEach(row => {
+        const hr = row.querySelector('hr');
+        if (hr) hr.remove();
+    });
+
+    // Adiciona <hr> em todas, menos na última
+    filteredRows.forEach((row, idx) => {
+        tasksContainer.appendChild(row);
+        if (idx < filteredRows.length - 1) {
+            const hr = document.createElement('hr');
+            hr.className = 'my-0';
+            row.appendChild(hr);
+        }
+    });
 });

@@ -11,19 +11,22 @@ namespace TaskManager.Helpers
             var taskDay = new DateTime(date.Year, date.Month, date.Day);
 
             var diffDays = (taskDay - today).Days;
-            var hora = date.ToString("HH:mm");
+            var time = date.ToString("HH:mm");
 
             if (diffDays == 0)
-                return $"Hoje {hora}";
+                return $"Hoje, {time}";
             else if (diffDays == 1)
-                return $"Amanhã {hora}";
+                return $"Amanhã, {time}";
             else if (diffDays > 1 && diffDays <= 6)
             {
-                var diasSemana = new[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" };
-                return $"{diasSemana[(int)date.DayOfWeek]} {hora}";
+                var daysWeek = new[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" };
+                return $"{daysWeek[(int)date.DayOfWeek]}, {time}";
             }
             else
-                return $"{date:dd/MM} {hora}";
+            {
+                string month = date.ToString("MMM").Replace(".", "");
+                return $"{date:dd} {month}, {time}";
+            }
         }
     }
 }
