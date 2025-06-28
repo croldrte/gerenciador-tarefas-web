@@ -2,18 +2,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TaskManager.Models
 {
-    public class TaskItem
+    public class Task
     {
         public int Id { get; set; }
 
         [Required]
         [StringLength(
-            100,
-            ErrorMessage = "O título da tarefa não pode ter mais de 100 caracteres."
+            50,
+            ErrorMessage = "O título da tarefa não pode ter mais de 50 caracteres."
         )]
         public required string Title { get; set; }
 
-        [StringLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]
+        [StringLength(500, ErrorMessage = "A descrição da tarefa não pode ter mais de 500 caracteres.")]
         public string? Description { get; set; }
 
         public DateTime? DateTime { get; set; }

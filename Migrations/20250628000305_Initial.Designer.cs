@@ -11,7 +11,7 @@ using TaskManager.Data;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250627210329_Initial")]
+    [Migration("20250628000305_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -32,15 +32,41 @@ namespace tarefas_web.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Color = "Red",
+                            Name = "Trabalho"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Color = "Green",
+                            Name = "Pessoal"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Color = "Blue",
+                            Name = "Estudo"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Color = "Pink",
+                            Name = "Saúde"
+                        });
                 });
 
-            modelBuilder.Entity("TaskManager.Models.TaskItem", b =>
+            modelBuilder.Entity("TaskManager.Models.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +87,7 @@ namespace tarefas_web.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -71,7 +97,7 @@ namespace tarefas_web.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.TaskItem", b =>
+            modelBuilder.Entity("TaskManager.Models.Task", b =>
                 {
                     b.HasOne("TaskManager.Models.Category", "Category")
                         .WithMany("Tasks")

@@ -20,13 +20,27 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] TaskItem task)
+        public IActionResult Add([FromBody] Models.Task task)
         {
             if (ModelState.IsValid)
             {
                 _context.Tasks.Add(task);
                 _context.SaveChanges();
-                return Json(new { success = true, task });
+
+                var category = _context.Categories.FirstOrDefault(c => c.Id == task.CategoryId);
+                return Json(new
+                {
+                    success = true,
+                    task = new
+                    {
+                        task.Id,
+                        task.Title,
+                        task.Description,
+                        task.DateTime,
+                        CategoryName = category?.Name,
+                        CategoryColor = category?.Color
+                    }
+                });
             }
             return Json(new { success = false });
         }

@@ -51,6 +51,11 @@ body {
   border-color: var(--bs-primary-hover);
 }
 
+.category-name {
+  text-transform: lowercase;
+}
+
+
 .form-control,
 .form-control:focus,
 .form-check-input {
@@ -90,6 +95,10 @@ body {
   border-bottom-left-radius: 0;
 }
 
+.form-label {
+
+}
+
 .list-group-item {
   color: var(--bs-body-color);
   background: transparent;
@@ -103,6 +112,7 @@ body {
 }
 
 .navbar-brand {
+  font-weight: 500;
   font-size: inherit;
   text-transform: lowercase;
   user-select: none;
@@ -139,5 +149,11 @@ body {
 
   100% {
     transform: scale(1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal-content {
+    min-width: 768px;
   }
 }

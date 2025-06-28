@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Data;
-using TaskManager.Models;
-using TaskManager.ViewModels;  // Não se esqueça de importar o namespace do ViewModel
+using TaskManager.ViewModels;
 
 public class HomeController : Controller
 {

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace tarefas_web.Migrations
 {
     /// <inheritdoc />
@@ -17,7 +19,7 @@ namespace tarefas_web.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
                     Color = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -31,7 +33,7 @@ namespace tarefas_web.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     DateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -46,6 +48,17 @@ namespace tarefas_web.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Color", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Red", "Trabalho" },
+                    { 2, "Green", "Pessoal" },
+                    { 3, "Blue", "Estudo" },
+                    { 4, "Pink", "Saúde" }
                 });
 
             migrationBuilder.CreateIndex(
