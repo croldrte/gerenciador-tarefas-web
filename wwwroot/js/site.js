@@ -1,4 +1,35 @@
-﻿// Adicionar Tarefa
+﻿// Estado inicial
+let isImportant = false;
+
+// Alternar visual e estado ao clicar
+document.getElementById('button-important').addEventListener('click', function () {
+    isImportant = !isImportant;
+    const icon = this.querySelector('i');
+    if (isImportant) {
+        icon.classList.remove('bi-star');
+        icon.classList.add('bi-star-fill');
+        this.classList.add('btn-warning');
+        this.title = "Desmarcar como importante";
+    } else {
+        icon.classList.remove('bi-star-fill');
+        icon.classList.add('bi-star');
+        this.classList.remove('btn-warning');
+        this.title = "Marcar como importante";
+    }
+});
+
+// Ao abrir o modal de adicionar tarefa, sempre resetar o estado
+document.getElementById('btn-add-task').addEventListener('click', function () {
+    isImportant = false;
+    const btn = document.getElementById('button-important');
+    const icon = btn.querySelector('i');
+    icon.classList.remove('bi-star-fill');
+    icon.classList.add('bi-star');
+    btn.classList.remove('btn-warning');
+    btn.title = "Marcar como importante";
+});
+
+// Adicionar Tarefa
 document.getElementById('btn-add-task').addEventListener('click', function () {
     var modal = new bootstrap.Modal(document.getElementById('modal-add-task'));
     modal.show();
@@ -13,7 +44,8 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
         Description: form['Description'].value,
         Date: form['Date'].value || null,
         Time: form['Time'].value || null,
-        CategoryId: form['CategoryId'].value || null
+        CategoryId: form['CategoryId'].value || null,
+        IsImportant: isImportant // <-- Adicione aqui
     };
 
     const response = await fetch('/Task/Add', {
@@ -27,6 +59,7 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
     if (result.success) {
         bootstrap.Modal.getInstance(document.getElementById('modal-add-task')).hide();
         form.reset();
+        isImportant = false; // resetar para próxima tarefa
         // Adicione a nova tarefa ao array
         window.initialTasks.push(result.task);
         // Ordene conforme sua lógica (opcional)

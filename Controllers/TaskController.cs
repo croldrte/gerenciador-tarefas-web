@@ -43,13 +43,15 @@ namespace TaskManager.Controllers
                     success = true,
                     task = new
                     {
-                        savedTask.Id,
-                        savedTask.Title,
-                        savedTask.Description,
-                        savedTask.Date,
-                        savedTask.Time,
-                        CategoryName = category?.Name ?? "",
-                        CategoryColor = category != null ? category.Color.ToRGB() : "#000000"
+                        id = savedTask.Id,
+                        title = savedTask.Title,
+                        description = savedTask.Description,
+                        date = savedTask.Date?.ToString("yyyy-MM-dd"),
+                        time = savedTask.Time?.ToString(@"hh\:mm"),
+                        categoryName = category?.Name ?? "",
+                        categoryColor = category != null ? category.Color.ToRGB() : "#000000",
+                        isCompleted = savedTask.IsCompleted,
+                        isImportant = savedTask.IsImportant
                     }
                 });
             }

@@ -69,6 +69,10 @@ hr {
   border-color: var(--bs-primary-hover);
 }
 
+.category-name {
+  color: var(--bs-body-color);
+}
+
 .dropdown-item {
   color: var(--bs-body-color) !important;
 }
