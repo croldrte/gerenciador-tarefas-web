@@ -153,10 +153,6 @@ hr {
   opacity: .5
 }
 
-#tasks {
-  padding: 20px;
-}
-
 .text-primary {
   color: var(--bs-primary) !important;
 }

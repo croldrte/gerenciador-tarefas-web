@@ -99,13 +99,15 @@ namespace TaskManager.Controllers
                 success = true,
                 task = new
                 {
-                    existing.Id,
-                    existing.Title,
-                    existing.Description,
-                    existing.Date,
-                    existing.Time,
-                    CategoryName = category?.Name ?? "",
-                    CategoryColor = category != null ? category.Color.ToRGB() : "#000000"
+                    id = existing.Id,
+                    title = existing.Title,
+                    description = existing.Description,
+                    date = existing.Date?.ToString("yyyy-MM-dd"),
+                    time = existing.Time?.ToString(@"hh\:mm"),
+                    categoryName = category?.Name ?? "",
+                    categoryColor = category != null ? category.Color.ToRGB() : "#000000",
+                    isCompleted = existing.IsCompleted,
+                    isImportant = existing.IsImportant
                 }
             });
         }
