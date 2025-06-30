@@ -20,7 +20,8 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
     const data = {
         Title: form['Title'].value,
         Description: form['Description'].value,
-        DateTime: dateTime,
+        Date: form['Date'].value || null,
+        Time: form['Time'].value || null,
         CategoryId: form['CategoryId'].value || null
     };
 

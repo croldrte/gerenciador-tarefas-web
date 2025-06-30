@@ -34,7 +34,7 @@ namespace TaskManager.Controllers
                 var savedTask = _context.Tasks.FirstOrDefault(t => t.Id == task.Id);
                 if (savedTask == null)
                 {
-                    return Json(new { success = false, errors = new[] { "Task could not be found after saving." } });
+                    return Json(new { success = false, errors = new[] { "A tarefa não foi encontrada após ser salva." } });
                 }
                 var category = _context.Categories.FirstOrDefault(c => c.Id == savedTask.CategoryId);
 
@@ -46,7 +46,8 @@ namespace TaskManager.Controllers
                         savedTask.Id,
                         savedTask.Title,
                         savedTask.Description,
-                        savedTask.DateTime,
+                        savedTask.Date,
+                        savedTask.Time,
                         CategoryName = category?.Name ?? "",
                         CategoryColor = category != null ? category.Color.ToRGB() : "#000000"
                     }
@@ -65,7 +66,8 @@ namespace TaskManager.Controllers
                     id = t.Id,
                     title = t.Title,
                     description = t.Description,
-                    dateTime = t.DateTime.HasValue ? t.DateTime.Value.ToString("yyyy-MM-ddTHH:mm") : "",
+                    date = t.Date.HasValue ? t.Date.Value.ToString("yyyy-MM-dd") : "",
+                    time = t.Time.HasValue ? t.Time.Value.ToString(@"hh\:mm") : "",
                     categoryId = t.CategoryId
                 })
                 .FirstOrDefault();
@@ -85,7 +87,8 @@ namespace TaskManager.Controllers
 
             existing.Title = task.Title;
             existing.Description = task.Description;
-            existing.DateTime = task.DateTime;
+            existing.Date = task.Date;
+            existing.Time = task.Time;
             existing.CategoryId = task.CategoryId;
             _context.SaveChanges();
 
@@ -99,7 +102,8 @@ namespace TaskManager.Controllers
                     existing.Id,
                     existing.Title,
                     existing.Description,
-                    existing.DateTime,
+                    existing.Date,
+                    existing.Time,
                     CategoryName = category?.Name ?? "",
                     CategoryColor = category != null ? category.Color.ToRGB() : "#000000"
                 }

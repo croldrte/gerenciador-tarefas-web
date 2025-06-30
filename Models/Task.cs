@@ -16,9 +16,15 @@ namespace TaskManager.Models
         [StringLength(500, ErrorMessage = "A descrição da tarefa não pode ter mais de 500 caracteres.")]
         public string? Description { get; set; }
 
-        public DateTime? DateTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? Date { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeSpan? Time { get; set; }
 
         public bool IsCompleted { get; set; }
+
+        public bool IsImportant { get; set; }
 
         public int? CategoryId { get; set; }
 
