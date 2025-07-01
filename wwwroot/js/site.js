@@ -210,10 +210,12 @@ document.getElementById('btn-confirm-delete').addEventListener('click', async fu
 });
 
 function renderTasks(tasks) {
+    // Considera undefined ou null como não excluído
+    const filtered = tasks.filter(t => !t.deletedAt);
     const tasksDiv = document.getElementById('tasks');
     tasksDiv.innerHTML = '';
-    tasks.forEach((task, i) => {
-        const isLast = i === tasks.length - 1;
+    filtered.forEach((task, i) => {
+        const isLast = i === filtered.length - 1;
         const borderClass = isLast ? '' : 'border-bottom';
 
         // Determina a cor da data

@@ -32,7 +32,8 @@ namespace TaskManager.Data
                     Time = new TimeSpan(9, 0, 0),
                     IsCompleted = true,
                     IsImportant = true,
-                    CategoryId = 1
+                    CategoryId = 1,
+                    CreatedAt = DateTime.Today.AddDays(-5) // Adicionado
                 },
                 new Models.Task
                 {
@@ -43,7 +44,8 @@ namespace TaskManager.Data
                     Time = new TimeSpan(18, 0, 0),
                     IsCompleted = false,
                     IsImportant = true,
-                    CategoryId = 2
+                    CategoryId = 2,
+                    CreatedAt = DateTime.Today.AddDays(-4) // Adicionado
                 },
                 new Models.Task
                 {
@@ -54,7 +56,8 @@ namespace TaskManager.Data
                     Time = new TimeSpan(7, 30, 0),
                     IsCompleted = false,
                     IsImportant = false,
-                    CategoryId = 3
+                    CategoryId = 3,
+                    CreatedAt = DateTime.Today.AddDays(-3) // Adicionado
                 },
                 new Models.Task
                 {
@@ -65,7 +68,8 @@ namespace TaskManager.Data
                     Time = new TimeSpan(20, 0, 0),
                     IsCompleted = false,
                     IsImportant = false,
-                    CategoryId = 4
+                    CategoryId = 4,
+                    CreatedAt = DateTime.Today.AddDays(-2) // Adicionado
                 }
             );
         }
