@@ -1,0 +1,196 @@
+@using TaskManager.Helpers
+@using TaskManager.Models
+@model TaskManager.ViewModels.TaskAndCategoryViewModel
+
+<header>
+  <nav class="navbar fs-2 my-5">
+    <div class="container">
+      <div class="navbar-brand">Tarefas</div>
+      <div class="navbar-icons d-flex gap-4">
+        <i id="btn-add-task" class="bi bi-plus" role="button" tabindex="0"></i>
+        <i class="bi bi-sun" role="button" tabindex="0"></i>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="d-flex filter align-items-center gap-3 mb-4" id="filter-important" role="button" tabindex="0">
+          <i class="bi bi-star-fill" style="font-size:28px;"></i>
+          <span>Importantes</span>
+        </div>
+        <div class="d-flex filter align-items-center gap-3 mb-4" id="filter-late" role="button" tabindex="0">
+          <i class="bi bi-hourglass-bottom" style="font-size:28px;"></i>
+          <span>Atrasadas</span>
+        </div>
+        <div class="d-flex filter align-items-center gap-3 mb-4" id="filter-week" role="button" tabindex="0">
+          <i class="bi bi-calendar-week-fill" style="font-size:28px;"></i>
+          <span>Esta semana</span>
+        </div>
+        <div class="d-flex filter align-items-center gap-3 mb-5" id="filter-done" role="button" tabindex="0">
+          <i class="bi bi-check-circle-fill" style="font-size:28px;"></i>
+          <span>Concluídas</span>
+        </div>
+        @foreach (var category in Model.Categories)
+        {
+          <div class="d-flex filter align-items-center gap-3 mb-4 filter-category"
+               role="button"
+               tabindex="0"
+               data-category-id="@category.Id"
+               id="filter-category-@category.Id">
+            <i class="bi bi-circle-fill" style="color:rgba(@category.Color.ToRGB(), .5);font-size:28px;"></i>
+            <span>@category.Name</span>
+          </div>
+        }
+        @* <div class="d-flex align-items-center gap-3 mt-5">
+          <input type="checkbox" class="form-check-input" />
+          <span style="opacity: .75">Ocultar tarefas concluídas</span>
+        </div> *@
+      </div>
+      <div class="col-9">
+        <div id="tasks">
+          @* Tarefas serão renderizadas aqui *@
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal Adicionar Tarefa -->
+<div class="modal fade" id="modal-add-task" tabindex="-1" aria-labelledby="modal-add-task-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content px-5 py-3">
+      <div class="modal-body">
+        <form id="form-add-task">
+          <div class="modal-header px-0 pb-4 border-0">
+            <button type="button" class="btn btn-transparent" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+          </div>
+          <div class="mb-3">
+            <label for="task-title" class="form-label">
+              <h4>Título</h4>
+            </label>
+            <div class="input-group mb-3">
+              <button class="btn btn-transparent-2" type="button" id="button-important" data-bs-toggle="tooltip"
+                data-bs-placement="top" title="Marcar como importante">
+                <i class="bi bi-star"></i>
+              </button>
+              <input type="text" class="form-control" id="task-title" name="Title" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="task-description" class="form-label">
+              <h4>Descrição</h4>
+            </label>
+            <textarea class="form-control" id="task-description" name="Description" rows="3"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">
+              <h4>Data</h4>
+            </label>
+            <div class="d-flex gap-2">
+              <input type="date" class="form-control" id="task-date" name="Date">
+              <input type="time" class="form-control" id="task-time" name="Time">
+            </div>
+          </div>
+          <div>
+            <label class="form-label">
+              <h4>Categoria</h4>
+            </label>
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              @foreach (var category in Model.Categories)
+              {
+                <input type="radio" class="btn-check" name="CategoryId" id="cat-@category.Id" value="@category.Id"
+                  autocomplete="off">
+                <label class="btn filter d-flex align-items-center gap-3 me-5" for="cat-@category.Id">
+                  <i class="bi bi-circle-fill" style="color:rgba(@category.Color.ToRGB(), .5);font-size:28px;"></i>
+                  <span class="category-name">@category.Name</span>
+                </label>
+              }
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Tarefa -->
+<div class="modal fade" id="modal-edit-task" tabindex="-1" aria-labelledby="modal-edit-task-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content px-5 py-3">
+      <div class="modal-body">
+        <form id="form-edit-task">
+          <input type="hidden" id="edit-task-id" name="Id" />
+          <input type="hidden" id="edit-task-isimportant" name="IsImportant" value="false" />
+          <div class="modal-header px-0 pb-4 border-0">
+            <button type="button" class="btn btn-transparent" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <div class="mb-3">
+            <label for="edit-task-title" class="form-label">
+              <h4>Título</h4>
+            </label>
+            <div class="input-group mb-3">
+              <button class="btn btn-transparent-2" type="button" id="edit-button-important" data-bs-toggle="tooltip"
+                data-bs-placement="top" title="Marcar como importante">
+                <i class="bi bi-star"></i>
+              </button>
+              <input type="text" class="form-control" id="edit-task-title" name="Title" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="edit-task-description" class="form-label">
+              <h4>Descrição</h4>
+            </label>
+            <textarea class="form-control" id="edit-task-description" name="Description" rows="3"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">
+              <h4>Data</h4>
+            </label>
+            <div class="d-flex gap-2">
+              <input type="date" class="form-control" id="edit-task-date" name="Date">
+              <input type="time" class="form-control" id="edit-task-time" name="Time">
+            </div>
+          </div>
+          <div>
+            <label class="form-label">
+              <h4>Categoria</h4>
+            </label>
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              @foreach (var category in Model.Categories)
+              {
+                <input type="radio" class="btn-check" name="CategoryId" id="edit-cat-@category.Id" value="@category.Id"
+                  autocomplete="off">
+                <label class="btn filter d-flex align-items-center gap-3 me-5" for="edit-cat-@category.Id">
+                  <i class="bi bi-circle-fill" style="color:rgba(@category.Color.ToRGB(), .5);font-size:28px;"></i>
+                  <span class="category-name">@category.Name</span>
+                </label>
+              }
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Excluir Tarefa -->
+<div class="modal fade" id="modal-confirm-delete" tabindex="-1" aria-labelledby="modal-confirm-delete-label"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content px-4 py-3">
+      <div class="modal-body">
+        <h4 id="modal-confirm-delete-label" class="text-center">Tem certeza que deseja excluir esta tarefa?</h4>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center gap-3">
+        <button type="button" class="btn btn-transparent" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-delete">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>

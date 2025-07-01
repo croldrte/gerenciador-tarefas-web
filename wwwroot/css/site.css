@@ -1,19 +1,25 @@
 :root {
   --bs-body-bg: white;
-  --bs-secondary-bg: #e7e8ea;
-  --bs-body-color: #303030;
-  --bs-primary: #9b78cd;
-  --bs-primary-hover: #ad8edc;
-  --bs-primary-focus: #7a5eb0;
+  --bs-secondary-bg: #F9F9F9;
+  --bs-body-color: #66665A;
+  --bs-primary: #66665A;
+  --bs-primary-hover: #66665A;
+  --bs-primary-focus: #66665A;
+  --red: 255, 147, 139;
+  --green: 106, 196, 109;
+  --blue: 108, 182, 255;
+  --pink: 252, 141, 199;
+  --yellow: 218, 170, 63;
+  --purple: 203, 158, 251;
+  --orange: 246, 157, 80;
 }
 
 body {
-  background-color: var(--bs-secondary-bg);
+  background-color: var(--bs-body-bg);
 }
 
-h2 {
-  font-family: "Pacifico", cursive;
-  user-select: none;
+hr {
+  background-color: var(--bs-body-color);
 }
 
 ::placeholder {
@@ -21,8 +27,15 @@ h2 {
   opacity: .5 !important;
 }
 
-.btn-delete-task {  
-  padding-left: 12px;
+.badge {
+  font-weight: normal;
+  font-size: .9rem;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.bi {
+  font-style: normal;
 }
 
 .btn-delete-task:hover,
@@ -34,6 +47,14 @@ h2 {
 .btn-primary {
   background-color: var(--bs-primary);
   border-color: var(--bs-primary);
+  padding: 0.5rem 1rem;
+}
+
+.btn-primary,
+.btn-transparent-2,
+.filter,
+.form-control {
+  border-radius: .66rem;
 }
 
 .btn-primary:disabled,
@@ -52,35 +73,72 @@ h2 {
   border-color: var(--bs-primary-hover);
 }
 
-.container {
-  max-width: 425px;
+.btn-transparent {
+  color: inherit;
+  padding: 0;
+}
+
+.btn-transparent-2 {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  border: 0;
+  padding-right: .1rem;
+}
+
+.btn-transparent-2:focus {
+  box-shadow: none;
+}
+
+.category-name {
   color: var(--bs-body-color);
 }
 
-.form-control,
-.form-control:focus,
+.dropdown-item {
+  color: var(--bs-body-color) !important;
+}
+
+.filter {
+  padding: 0 .25rem;
+}
+
+.filter.active,
+.filter:hover {
+  background-color: var(--bs-secondary-bg);
+}
+
+.filter.active {
+  font-weight: 500;
+}
+
+.form-check-input,
+hr {
+  opacity: .33 !important;
+}
+
 .form-check-input {
-  border: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--bs-body-color);
 }
 
 .form-control,
 .form-control:focus {
-  background-color: var(--bs-body-bg);
-  color: var(--bs-body-color)
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  border: 0;
+  resize: none;
 }
 
-.form-check-input {
-  background-color: var(--bs-secondary-bg)
+.task-check {
+  background-color: var(--bs-body-bg);
+  margin-right: 8px;
+  border-radius: 50% !important;
+  width: 1.2em;
+  height: 1.2em;
 }
 
 .form-check-input:checked {
   background-color: var(--bs-primary);
   border-color: var(--bs-primary);
-}
-
-#form-task,
-#tasks {
-  border-radius: 12px;
 }
 
 #form-task .form-control {
@@ -109,9 +167,20 @@ h2 {
   align-items: center;
 }
 
-.form-check-input {
-  flex-shrink: 0;
-  margin-right: 8px;
+.modal-content {
+  border-radius: 1rem;
+  border: 0;
+}
+
+.navbar-brand {
+  font-weight: 500;
+  font-size: inherit;
+  user-select: none;
+  cursor: pointer;
+}
+
+.pulse {
+  animation: pulse 0.5s ease-in-out;
 }
 
 .task-title {
@@ -126,13 +195,16 @@ h2 {
   opacity: .5
 }
 
-#tasks {
-  padding: 20px;
-  background-color: var(--bs-body-bg);
+.text-danger {
+  color: rgb(var(--red)) !important;
 }
 
-.pulse {
-  animation: pulse 0.5s ease-in-out;
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+.text-success {
+  color: rgb(var(--green)) !important;
 }
 
 @keyframes pulse {
@@ -146,5 +218,11 @@ h2 {
 
   100% {
     transform: scale(1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal-content {
+    min-width: 768px;
   }
 }
