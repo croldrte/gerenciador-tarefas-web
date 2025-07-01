@@ -1,10 +1,10 @@
-using GerenciadorTarefas.Data;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=gerenciador_tarefas.db"));
+    options.UseSqlite("Data Source=task_manager.db"));
 
 builder.Services.AddControllersWithViews();
 
@@ -29,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Tarefa}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

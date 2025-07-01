@@ -14,19 +14,14 @@
     <link rel="stylesheet" href="~/css/site-dark.css" asp-append-version="true" />
 </head>
 
-<body class="d-flex align-items-center justify-content-center min-vh-100">
-
-    <main role="main">
-        <div class="container my-5">
-            @RenderBody()
-        </div>
-    </main>
+<body>
+    @RenderBody()
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>window.initialTasks = @Html.Raw(ViewBag.TasksJson);</script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 
 </html>
