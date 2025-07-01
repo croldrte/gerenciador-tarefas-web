@@ -1,4 +1,4 @@
-namespace GerenciadorTarefas.Models;
+namespace TaskManager.Models;
 
 public class ErrorViewModel
 {

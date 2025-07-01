@@ -1,13 +1,73 @@
 using Microsoft.EntityFrameworkCore;
-using GerenciadorTarefas.Models;
+using TaskManager.Models;
 
-namespace GerenciadorTarefas.Data
+namespace TaskManager.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Models.Task> Tasks { get; set; }
 
-        public DbSet<Tarefa> Tarefas { get; set; }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Trabalho", Color = "Pink" },
+                new Category { Id = 2, Name = "Estudo", Color = "Green" },
+                new Category { Id = 3, Name = "Pessoal", Color = "Blue" },
+                new Category { Id = 4, Name = "Casa", Color = "Orange" }
+            );
+
+            modelBuilder.Entity<Models.Task>().HasData(
+                new Models.Task
+                {
+                    Id = 1,
+                    Title = "Enviar relatório",
+                    Description = "Mandar pra Amanda: revisão detalhada dos contratos com fornecedores, ciclos de recebimento, dívidas de curto prazo.",
+                    Date = DateTime.Today.AddDays(2),
+                    Time = new TimeSpan(9, 0, 0),
+                    IsCompleted = true,
+                    IsImportant = true,
+                    CategoryId = 1
+                },
+                new Models.Task
+                {
+                    Id = 2,
+                    Title = "Prova de economia",
+                    Description = "Oferta e demanda, estruturas de mercado, custo de produção, teorias econômicas. Capítulos 6 a 9.",
+                    Date = DateTime.Today.AddDays(1),
+                    Time = new TimeSpan(18, 0, 0),
+                    IsCompleted = false,
+                    IsImportant = true,
+                    CategoryId = 2
+                },
+                new Models.Task
+                {
+                    Id = 3,
+                    Title = "Fazer yoga",
+                    Description = "Pranayama – 5 minutos\r\nCão olhando para baixo – 3 minutos\r\nGato e vaca – 2 minutos\r\nGuerreiro 1 – 2 minutos\r\nGuerreiro 2 – 2 minutos\r\nPostura da criança – 3 minutos\r\nSavasana – 5 minutos",
+                    Date = DateTime.Today,
+                    Time = new TimeSpan(7, 30, 0),
+                    IsCompleted = false,
+                    IsImportant = false,
+                    CategoryId = 3
+                },
+                new Models.Task
+                {
+                    Id = 4,
+                    Title = "Ir ao mercado",
+                    Description = "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé",
+                    Date = DateTime.Today.AddDays(-1),
+                    Time = new TimeSpan(20, 0, 0),
+                    IsCompleted = false,
+                    IsImportant = false,
+                    CategoryId = 4
+                }
+            );
+        }
     }
 }
