@@ -99,11 +99,9 @@ document.getElementById('tasks').addEventListener('click', async function(e) {
         if (editIsImportant) {
             icon.classList.add('bi-star-fill');
             btn.title = "Desmarcar como importante";
-            document.getElementById('edit-task-isimportant').value = "true";
         } else {
             icon.classList.add('bi-star');
             btn.title = "Marcar como importante";
-            document.getElementById('edit-task-isimportant').value = "false";
         }
 
         var modal = new bootstrap.Modal(document.getElementById('modal-edit-task'));
@@ -156,7 +154,7 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
         Date: date || null,
         Time: time || null,
         CategoryId: form['CategoryId'].value || null,
-        IsImportant: editIsImportant
+        IsImportant: editIsImportant // <-- Use sempre o valor da variável JS
     };
 
     const response = await fetch('/Task/Edit', {
@@ -179,7 +177,8 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
                 categoryName: result.task.categoryName,
                 categoryColor: result.task.categoryColor,
                 isCompleted: result.task.isCompleted,
-                isImportant: result.task.isImportant
+                isImportant: result.task.isImportant,
+                deletedAt: result.task.deletedAt
             };
             renderTasks(window.initialTasks);
         }
@@ -335,7 +334,7 @@ document.getElementById('edit-button-important').addEventListener('click', funct
         icon.classList.add('bi-star');
         this.title = "Marcar como importante";
     }
-    document.getElementById('edit-task-isimportant').value = editIsImportant;
+    // Não precisa atualizar nenhum campo hidden!
 });
 
 function filterTasks(predicate) {

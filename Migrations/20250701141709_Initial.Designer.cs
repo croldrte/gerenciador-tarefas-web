@@ -11,7 +11,7 @@ using TaskManager.Data;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250701141024_Initial")]
+    [Migration("20250701141709_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

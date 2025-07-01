@@ -95,6 +95,7 @@ namespace TaskManager.Controllers
             existing.Date = task.Date;
             existing.Time = task.Time;
             existing.CategoryId = task.CategoryId;
+            existing.IsImportant = task.IsImportant; // <-- ESSENCIAL!
             existing.UpdatedAt = DateTime.UtcNow;
             _context.SaveChanges();
 
