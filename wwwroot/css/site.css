@@ -45,6 +45,7 @@ hr {
 
 .btn-primary,
 .btn-transparent-2,
+.filter,
 .form-control {
   border-radius: .66rem;
 }
@@ -87,6 +88,14 @@ hr {
 
 .dropdown-item {
   color: var(--bs-body-color) !important;
+}
+
+.filter {
+  padding: 0 .25rem;
+}
+
+.filter:hover {
+  background-color: var(--bs-secondary-bg);
 }
 
 .form-check-input,
