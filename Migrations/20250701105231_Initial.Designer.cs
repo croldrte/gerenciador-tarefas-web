@@ -11,7 +11,7 @@ using TaskManager.Data;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250630112844_Initial")]
+    [Migration("20250701105231_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -107,7 +107,7 @@ namespace tarefas_web.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            Date = new DateTime(2025, 7, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 3, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Mandar pra Amanda: revisão detalhada dos contratos com fornecedores, ciclos de recebimento, dívidas de curto prazo.",
                             IsCompleted = true,
                             IsImportant = true,
@@ -118,7 +118,7 @@ namespace tarefas_web.Migrations
                         {
                             Id = 2,
                             CategoryId = 2,
-                            Date = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Oferta e demanda, estruturas de mercado, custo de produção, teorias econômicas. Capítulos 6 a 9.",
                             IsCompleted = false,
                             IsImportant = true,
@@ -129,7 +129,7 @@ namespace tarefas_web.Migrations
                         {
                             Id = 3,
                             CategoryId = 3,
-                            Date = new DateTime(2025, 6, 30, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Pranayama – 5 minutos\r\nCão olhando para baixo – 3 minutos\r\nGato e vaca – 2 minutos\r\nGuerreiro 1 – 2 minutos\r\nGuerreiro 2 – 2 minutos\r\nPostura da criança – 3 minutos\r\nSavasana – 5 minutos",
                             IsCompleted = false,
                             IsImportant = false,
@@ -140,7 +140,7 @@ namespace tarefas_web.Migrations
                         {
                             Id = 4,
                             CategoryId = 4,
-                            Date = new DateTime(2025, 7, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé",
                             IsCompleted = false,
                             IsImportant = false,

@@ -70,7 +70,9 @@ namespace TaskManager.Controllers
                     description = t.Description,
                     date = t.Date.HasValue ? t.Date.Value.ToString("yyyy-MM-dd") : "",
                     time = t.Time.HasValue ? t.Time.Value.ToString(@"hh\:mm") : "",
-                    categoryId = t.CategoryId
+                    categoryId = t.CategoryId,
+                    isImportant = t.IsImportant,
+                    isCompleted = t.IsCompleted
                 })
                 .FirstOrDefault();
 

@@ -1,31 +1,27 @@
-﻿// Estado inicial
-let isImportant = false;
+﻿let isImportant = false;
+let editIsImportant = false;
 
-// Alternar visual e estado ao clicar
+// Marcar como Importante
 document.getElementById('button-important').addEventListener('click', function () {
     isImportant = !isImportant;
     const icon = this.querySelector('i');
     if (isImportant) {
         icon.classList.remove('bi-star');
         icon.classList.add('bi-star-fill');
-        this.classList.add('btn-warning');
         this.title = "Desmarcar como importante";
     } else {
         icon.classList.remove('bi-star-fill');
         icon.classList.add('bi-star');
-        this.classList.remove('btn-warning');
         this.title = "Marcar como importante";
     }
 });
 
-// Ao abrir o modal de adicionar tarefa, sempre resetar o estado
 document.getElementById('btn-add-task').addEventListener('click', function () {
     isImportant = false;
     const btn = document.getElementById('button-important');
     const icon = btn.querySelector('i');
     icon.classList.remove('bi-star-fill');
     icon.classList.add('bi-star');
-    btn.classList.remove('btn-warning');
     btn.title = "Marcar como importante";
 });
 
@@ -45,7 +41,7 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
         Date: form['Date'].value || null,
         Time: form['Time'].value || null,
         CategoryId: form['CategoryId'].value || null,
-        IsImportant: isImportant // <-- Adicione aqui
+        IsImportant: isImportant
     };
 
     const response = await fetch('/Task/Add', {
@@ -59,21 +55,15 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
     if (result.success) {
         bootstrap.Modal.getInstance(document.getElementById('modal-add-task')).hide();
         form.reset();
-        isImportant = false; // resetar para próxima tarefa
-        // Adicione a nova tarefa ao array
+        isImportant = false;
         window.initialTasks.push(result.task);
-        // Ordene conforme sua lógica (opcional)
-        // window.initialTasks.sort(compareTasksByYourLogic); // Se quiser ordenar
-        // Re-renderize a lista
         renderTasks(window.initialTasks);
     } else {
         alert('Erro ao adicionar tarefa.');
     }
 });
 
-// Delegação de eventos para editar, excluir e marcar como concluída
 document.getElementById('tasks').addEventListener('click', async function(e) {
-    // Editar
     if (e.target.classList.contains('btn-edit-task')) {
         e.preventDefault();
         const taskId = e.target.getAttribute('data-task-id');
@@ -98,11 +88,28 @@ document.getElementById('tasks').addEventListener('click', async function(e) {
             document.getElementById('edit-task-time').value = '';
         }
 
+        if (task.isImportant) {
+            editIsImportant = true;
+        } else {
+            editIsImportant = false;
+        }
+        const btn = document.getElementById('edit-button-important');
+        const icon = btn.querySelector('i');
+        icon.className = 'bi';
+        if (editIsImportant) {
+            icon.classList.add('bi-star-fill');
+            btn.title = "Desmarcar como importante";
+            document.getElementById('edit-task-isimportant').value = "true";
+        } else {
+            icon.classList.add('bi-star');
+            btn.title = "Marcar como importante";
+            document.getElementById('edit-task-isimportant').value = "false";
+        }
+
         var modal = new bootstrap.Modal(document.getElementById('modal-edit-task'));
         modal.show();
     }
 
-    // Excluir
     if (e.target.classList.contains('btn-delete-task')) {
         e.preventDefault();
         taskIdToDelete = e.target.getAttribute('data-task-id');
@@ -111,7 +118,6 @@ document.getElementById('tasks').addEventListener('click', async function(e) {
 });
 
 document.getElementById('tasks').addEventListener('change', async function(e) {
-    // Marcar como concluída
     if (e.target.classList.contains('task-check')) {
         const taskDiv = e.target.closest('.task-item');
         const taskId = taskDiv.getAttribute('data-task-id-div');
@@ -130,7 +136,6 @@ document.getElementById('tasks').addEventListener('change', async function(e) {
             body: `id=${taskId}&isCompleted=${isCompleted}`
         });
 
-        // Atualize o array em memória
         const idx = window.initialTasks.findIndex(t => t.id == taskId);
         if (idx !== -1) window.initialTasks[idx].isCompleted = isCompleted;
     }
@@ -150,7 +155,8 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
         Description: form['Description'].value,
         Date: date || null,
         Time: time || null,
-        CategoryId: form['CategoryId'].value || null
+        CategoryId: form['CategoryId'].value || null,
+        IsImportant: editIsImportant
     };
 
     const response = await fetch('/Task/Edit', {
@@ -205,7 +211,6 @@ document.getElementById('btn-confirm-delete').addEventListener('click', async fu
     taskIdToDelete = null;
 });
 
-// Função para renderizar as tarefas
 function renderTasks(tasks) {
     const tasksDiv = document.getElementById('tasks');
     tasksDiv.innerHTML = '';
@@ -260,7 +265,6 @@ function renderTasks(tasks) {
     });
 }
 
-// Função para formatar data igual ao helper C#
 function formatTaskDate(dateStr, timeStr) {
     if (!dateStr) return "";
     const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -284,7 +288,21 @@ function formatTaskDate(dateStr, timeStr) {
     }
 }
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', function () {
     renderTasks(window.initialTasks);
+});
+
+document.getElementById('edit-button-important').addEventListener('click', function () {
+    editIsImportant = !editIsImportant;
+    const icon = this.querySelector('i');
+    if (editIsImportant) {
+        icon.classList.remove('bi-star');
+        icon.classList.add('bi-star-fill');
+        this.title = "Desmarcar como importante";
+    } else {
+        icon.classList.remove('bi-star-fill');
+        icon.classList.add('bi-star');
+        this.title = "Marcar como importante";
+    }
+    document.getElementById('edit-task-isimportant').value = editIsImportant;
 });

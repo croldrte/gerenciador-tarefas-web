@@ -41,10 +41,10 @@
             <span>@category.Name</span>
           </div>
         }
-        <div class="d-flex align-items-center gap-3 mt-5">
+        @* <div class="d-flex align-items-center gap-3 mt-5">
           <input type="checkbox" class="form-check-input" />
           <span style="opacity: .75">Ocultar tarefas concluídas</span>
-        </div>
+        </div> *@
       </div>
       <div class="col-9">
         <div id="tasks">
@@ -70,7 +70,8 @@
               <h4>Título</h4>
             </label>
             <div class="input-group mb-3">
-              <button class="btn btn-primary" type="button" id="button-important" data-bs-toggle="tooltip" data-bs-placement="top" title="Marcar como importante">
+              <button class="btn btn-transparent-2" type="button" id="button-important" data-bs-toggle="tooltip"
+                data-bs-placement="top" title="Marcar como importante">
                 <i class="bi bi-star"></i>
               </button>
               <input type="text" class="form-control" id="task-title" name="Title" required>
@@ -120,6 +121,7 @@
       <div class="modal-body">
         <form id="form-edit-task">
           <input type="hidden" id="edit-task-id" name="Id" />
+          <input type="hidden" id="edit-task-isimportant" name="IsImportant" value="false" />
           <div class="modal-header px-0 pb-4 border-0">
             <button type="button" class="btn btn-transparent" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Salvar</button>
@@ -128,7 +130,13 @@
             <label for="edit-task-title" class="form-label">
               <h4>Título</h4>
             </label>
-            <input type="text" class="form-control" id="edit-task-title" name="Title" required>
+            <div class="input-group mb-3">
+              <button class="btn btn-transparent-2" type="button" id="edit-button-important" data-bs-toggle="tooltip"
+                data-bs-placement="top" title="Marcar como importante">
+                <i class="bi bi-star"></i>
+              </button>
+              <input type="text" class="form-control" id="edit-task-title" name="Title" required>
+            </div>
           </div>
           <div class="mb-3">
             <label for="edit-task-description" class="form-label">

@@ -31,11 +31,6 @@ hr {
   font-style: normal;
 }
 
-.btn-transparent {
-  color: inherit;
-  padding: 0;
-}
-
 .btn-delete-task:hover,
 #toggle-theme:hover {
   color: var(--bs-primary-hover);
@@ -49,6 +44,7 @@ hr {
 }
 
 .btn-primary,
+.btn-transparent-2,
 .form-control {
   border-radius: .66rem;
 }
@@ -67,6 +63,22 @@ hr {
 .btn-primary:focus {
   background-color: var(--bs-primary-hover);
   border-color: var(--bs-primary-hover);
+}
+
+.btn-transparent {
+  color: inherit;
+  padding: 0;
+}
+
+.btn-transparent-2 {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  border: 0;
+  padding-right: .1rem;
+}
+
+.btn-transparent-2:focus {
+  box-shadow: none;
 }
 
 .category-name {
