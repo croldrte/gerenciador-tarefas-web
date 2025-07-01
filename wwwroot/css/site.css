@@ -5,6 +5,13 @@
   --bs-primary: #66665A;
   --bs-primary-hover: #66665A;
   --bs-primary-focus: #66665A;
+  --red: 255, 147, 139;
+  --green: 106, 196, 109;
+  --blue: 108, 182, 255;
+  --pink: 252, 141, 199;
+  --yellow: 218, 170, 63;
+  --purple: 203, 158, 251;
+  --orange: 246, 157, 80;
 }
 
 body {
@@ -94,8 +101,13 @@ hr {
   padding: 0 .25rem;
 }
 
+.filter.active,
 .filter:hover {
   background-color: var(--bs-secondary-bg);
+}
+
+.filter.active {
+  font-weight: 500;
 }
 
 .form-check-input,
@@ -164,6 +176,11 @@ hr {
   font-weight: 500;
   font-size: inherit;
   user-select: none;
+  cursor: pointer;
+}
+
+.pulse {
+  animation: pulse 0.5s ease-in-out;
 }
 
 .task-title {
@@ -178,12 +195,16 @@ hr {
   opacity: .5
 }
 
+.text-danger {
+  color: rgb(var(--red)) !important;
+}
+
 .text-primary {
   color: var(--bs-primary) !important;
 }
 
-.pulse {
-  animation: pulse 0.5s ease-in-out;
+.text-success {
+  color: rgb(var(--green)) !important;
 }
 
 @keyframes pulse {

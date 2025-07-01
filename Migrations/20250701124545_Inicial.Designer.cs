@@ -11,8 +11,8 @@ using TaskManager.Data;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250701105231_Initial")]
-    partial class Initial
+    [Migration("20250701124545_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,7 +140,7 @@ namespace tarefas_web.Migrations
                         {
                             Id = 4,
                             CategoryId = 4,
-                            Date = new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 6, 30, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé",
                             IsCompleted = false,
                             IsImportant = false,

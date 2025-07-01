@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace tarefas_web.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,7 +70,7 @@ namespace tarefas_web.Migrations
                     { 1, 1, new DateTime(2025, 7, 3, 0, 0, 0, 0, DateTimeKind.Local), "Mandar pra Amanda: revisão detalhada dos contratos com fornecedores, ciclos de recebimento, dívidas de curto prazo.", true, true, new TimeSpan(0, 9, 0, 0, 0), "Enviar relatório" },
                     { 2, 2, new DateTime(2025, 7, 2, 0, 0, 0, 0, DateTimeKind.Local), "Oferta e demanda, estruturas de mercado, custo de produção, teorias econômicas. Capítulos 6 a 9.", false, true, new TimeSpan(0, 18, 0, 0, 0), "Prova de economia" },
                     { 3, 3, new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Local), "Pranayama – 5 minutos\r\nCão olhando para baixo – 3 minutos\r\nGato e vaca – 2 minutos\r\nGuerreiro 1 – 2 minutos\r\nGuerreiro 2 – 2 minutos\r\nPostura da criança – 3 minutos\r\nSavasana – 5 minutos", false, false, new TimeSpan(0, 7, 30, 0, 0), "Fazer yoga" },
-                    { 4, 4, new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Local), "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé", false, false, new TimeSpan(0, 20, 0, 0, 0), "Ir ao mercado" }
+                    { 4, 4, new DateTime(2025, 6, 30, 0, 0, 0, 0, DateTimeKind.Local), "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé", false, false, new TimeSpan(0, 20, 0, 0, 0), "Ir ao mercado" }
                 });
 
             migrationBuilder.CreateIndex(

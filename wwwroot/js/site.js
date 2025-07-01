@@ -167,7 +167,6 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
 
     const result = await response.json();
     if (result.success) {
-        // Atualize a tarefa no array
         const idx = window.initialTasks.findIndex(t => t.id == result.task.id);
         if (idx !== -1) {
             window.initialTasks[idx] = {
@@ -201,7 +200,6 @@ document.getElementById('btn-confirm-delete').addEventListener('click', async fu
     });
     const result = await response.json();
     if (result.success) {
-        // Remova do array
         window.initialTasks = window.initialTasks.filter(t => t.id != taskIdToDelete);
         renderTasks(window.initialTasks);
         modalDelete.hide();
@@ -217,6 +215,22 @@ function renderTasks(tasks) {
     tasks.forEach((task, i) => {
         const isLast = i === tasks.length - 1;
         const borderClass = isLast ? '' : 'border-bottom';
+
+        // Determina a cor da data
+        let dateClass = "";
+        if (task.date) {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const taskDay = new Date(task.date);
+            taskDay.setHours(0,0,0,0);
+            const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
+            if (diffDays < 0 && !task.isCompleted) {
+                dateClass = "text-danger";
+            } else if ((diffDays === 0 || diffDays === 1) && !task.isCompleted) {
+                dateClass = "text-success";
+            }
+        }
+
         tasksDiv.innerHTML += `
         <div class="task-row">
             <div class="task-item py-4 ${borderClass}" data-task-id-div="${task.id}">
@@ -232,9 +246,9 @@ function renderTasks(tasks) {
                         <div class="d-flex w-100 justify-content-between align-items-center">
                             <div>
                                 ${task.date ? `
-                                <div class="task-datetime${(new Date(task.date).toDateString() === new Date().toDateString()) ? " text-primary" : ""}">
-                                    <i class="bi bi-calendar-event me-1"></i>
-                                    <span class="task-time">${formatTaskDate(task.date, task.time)}</span>
+                                <div class="task-datetime">
+                                    <i class="bi bi-calendar-event me-1 ${dateClass}"></i>
+                                    <span class="task-time ${dateClass}">${formatTaskDate(task.date, task.time)}</span>
                                 </div>` : ''}
                             </div>
                             <div>
@@ -280,6 +294,10 @@ function formatTaskDate(dateStr, timeStr) {
         return `Hoje${sep}${hora}`;
     else if (diffDays === 1)
         return `Amanhã${sep}${hora}`;
+    else if (diffDays === -1)
+        return `Ontem${sep}${hora}`;
+    else if (diffDays === -2)
+        return `Anteontem${sep}${hora}`;
     else if (diffDays > 1 && diffDays <= 6)
         return `${diasSemana[date.getDay()]}${sep}${hora}`;
     else {
@@ -288,8 +306,19 @@ function formatTaskDate(dateStr, timeStr) {
     }
 }
 
+function addCategoryFilterListeners() {
+    document.querySelectorAll('.filter-category').forEach(elem => {
+        elem.addEventListener('click', function () {
+            const catName = this.querySelector('span').textContent.trim();
+            filterTasks(t => t.categoryName === catName);
+            setActiveFilter(this);
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     renderTasks(window.initialTasks);
+    addCategoryFilterListeners();
 });
 
 document.getElementById('edit-button-important').addEventListener('click', function () {
@@ -305,4 +334,51 @@ document.getElementById('edit-button-important').addEventListener('click', funct
         this.title = "Marcar como importante";
     }
     document.getElementById('edit-task-isimportant').value = editIsImportant;
+});
+
+function filterTasks(predicate) {
+    renderTasks(window.initialTasks.filter(predicate));
+}
+
+document.getElementById('filter-important').addEventListener('click', function () {
+    filterTasks(t => t.isImportant);
+    setActiveFilter(this);
+});
+
+document.getElementById('filter-late').addEventListener('click', function () {
+    const now = new Date();
+    filterTasks(t => t.date && new Date(t.date) < new Date(now.getFullYear(), now.getMonth(), now.getDate()) && !t.isCompleted);
+    setActiveFilter(this);
+});
+
+document.getElementById('filter-week').addEventListener('click', function () {
+    const now = new Date();
+    const start = new Date(now);
+    start.setDate(now.getDate() - now.getDay());
+    start.setHours(0,0,0,0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 7);
+
+    filterTasks(t => {
+        if (!t.date) return false;
+        const taskDate = new Date(t.date);
+        taskDate.setHours(0,0,0,0);
+        return taskDate >= start && taskDate < end;
+    });
+    setActiveFilter(this);
+});
+
+document.getElementById('filter-done').addEventListener('click', function () {
+    filterTasks(t => t.isCompleted);
+    setActiveFilter(this);
+});
+
+function setActiveFilter(activeElem) {
+    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
+    activeElem.classList.add('active');
+}
+
+document.querySelector('.navbar-brand').addEventListener('click', function () {
+    renderTasks(window.initialTasks); // Mostra todas as tarefas
+    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active')); // Remove destaque dos filtros
 });

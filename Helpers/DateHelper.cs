@@ -17,6 +17,10 @@ namespace TaskManager.Helpers
                 return $"Hoje, {time}";
             else if (diffDays == 1)
                 return $"Amanhã, {time}";
+            else if (diffDays == -1)
+                return $"Ontem, {time}";
+            else if (diffDays == -2)
+                return $"Anteontem, {time}";
             else if (diffDays > 1 && diffDays <= 6)
             {
                 var daysWeek = new[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" };
@@ -41,6 +45,10 @@ namespace TaskManager.Helpers
                 return $"Hoje, {timeStr}";
             else if (diffDays == 1)
                 return $"Amanhã, {timeStr}";
+            else if (diffDays == -1)
+                return $"Ontem, {timeStr}";
+            else if (diffDays == -2)
+                return $"Anteontem, {timeStr}";
             else if (diffDays > 1 && diffDays <= 6)
             {
                 var daysWeek = new[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" };

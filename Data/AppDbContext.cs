@@ -61,7 +61,7 @@ namespace TaskManager.Data
                     Id = 4,
                     Title = "Ir ao mercado",
                     Description = "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé",
-                    Date = DateTime.Today.AddDays(3),
+                    Date = DateTime.Today.AddDays(-1),
                     Time = new TimeSpan(20, 0, 0),
                     IsCompleted = false,
                     IsImportant = false,
