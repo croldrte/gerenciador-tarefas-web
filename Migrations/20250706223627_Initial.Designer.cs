@@ -11,7 +11,7 @@ using TaskManager.Data;
 namespace tarefas_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250706160736_Initial")]
+    [Migration("20250706223627_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -145,7 +145,7 @@ namespace tarefas_web.Migrations
                             Date = new DateTime(2025, 7, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Oferta e demanda, estruturas de mercado, custo de produção, teorias econômicas. Capítulos 6 a 9.",
                             IsCompleted = false,
-                            IsImportant = true,
+                            IsImportant = false,
                             Time = new TimeSpan(0, 18, 0, 0, 0),
                             Title = "Prova de economia"
                         },
@@ -172,6 +172,18 @@ namespace tarefas_web.Migrations
                             IsImportant = false,
                             Time = new TimeSpan(0, 20, 0, 0, 0),
                             Title = "Ir ao mercado"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            CreatedAt = new DateTime(2025, 7, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Description = "Keynes, oferta e demanda, política fiscal. Formatar referências. E-mail: juvenal@universidade.com.",
+                            IsCompleted = false,
+                            IsImportant = true,
+                            Time = new TimeSpan(0, 23, 0, 0, 0),
+                            Title = "Enviar o TCC para revisão"
                         });
                 });
 
