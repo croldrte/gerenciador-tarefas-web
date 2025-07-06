@@ -349,6 +349,33 @@ function addCategoryFilterListeners() {
     });
 }
 
+function setupCategorySelection(modalId, inputPrefix = '') {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.querySelectorAll(`.btn-check[name="CategoryId"]`).forEach(radio => {
+        radio.addEventListener('change', function () {
+            modal.querySelectorAll('.filter').forEach(label => label.classList.remove('active'));
+            const label = modal.querySelector(`label[for="${this.id}"]`);
+            if (label) label.classList.add('active');
+        });
+    });
+
+    modal.addEventListener('show.bs.modal', function () {
+        setTimeout(() => {
+            modal.querySelectorAll('.filter').forEach(label => label.classList.remove('active'));
+            const checked = modal.querySelector(`.btn-check[name="CategoryId"]:checked`);
+            if (checked) {
+                const label = modal.querySelector(`label[for="${checked.id}"]`);
+                if (label) label.classList.add('active');
+            }
+        }, 10);
+    });
+}
+
+setupCategorySelection('modal-add-task');
+setupCategorySelection('modal-edit-task');
+
 document.addEventListener('DOMContentLoaded', function () {
     renderTasks(window.initialTasks);
     addCategoryFilterListeners();
