@@ -208,6 +208,10 @@ hr {
   animation: pulse 0.5s ease-in-out;
 }
 
+.task-item {
+  cursor: pointer;
+}
+
 .task-title {
   flex: 1 1 0;
   min-width: 0;

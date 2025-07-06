@@ -3,30 +3,30 @@ const body = document.body;
 
 // Mudar Tema
 function applyTheme(theme) {
-  body.setAttribute('data-bs-theme', theme);
-  if (theme === 'dark') {
-    toggleBtn.classList.remove('bi-sun');
-    toggleBtn.classList.add('bi-moon');
-  } else {
-    toggleBtn.classList.remove('bi-moon');
-    toggleBtn.classList.add('bi-sun');
-  }
-  localStorage.setItem('theme', theme);
+    body.setAttribute('data-bs-theme', theme);
+    if (theme === 'dark') {
+        toggleBtn.classList.remove('bi-sun');
+        toggleBtn.classList.add('bi-moon');
+    } else {
+        toggleBtn.classList.remove('bi-moon');
+        toggleBtn.classList.add('bi-sun');
+    }
+    localStorage.setItem('theme', theme);
 }
 
 const savedTheme = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 if (savedTheme) {
-  applyTheme(savedTheme);
+    applyTheme(savedTheme);
 } else {
-  applyTheme(prefersDark ? 'dark' : 'light');
+    applyTheme(prefersDark ? 'dark' : 'light');
 }
 
 toggleBtn.addEventListener('click', () => {
-  const currentTheme = body.getAttribute('data-bs-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  applyTheme(newTheme);
+    const currentTheme = body.getAttribute('data-bs-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
 });
 
 
@@ -95,7 +95,7 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
     }
 });
 
-document.getElementById('tasks').addEventListener('click', async function(e) {
+document.getElementById('tasks').addEventListener('click', async function (e) {
     if (e.target.classList.contains('btn-edit-task')) {
         e.preventDefault();
         const taskId = e.target.getAttribute('data-task-id');
@@ -147,7 +147,7 @@ document.getElementById('tasks').addEventListener('click', async function(e) {
     }
 });
 
-document.getElementById('tasks').addEventListener('change', async function(e) {
+document.getElementById('tasks').addEventListener('change', async function (e) {
     if (e.target.classList.contains('task-check')) {
         const taskDiv = e.target.closest('.task-item');
         const taskId = taskDiv.getAttribute('data-task-id-div');
@@ -186,7 +186,7 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
         Date: date || null,
         Time: time || null,
         CategoryId: form['CategoryId'].value || null,
-        IsImportant: editIsImportant // <-- Use sempre o valor da variável JS
+        IsImportant: editIsImportant
     };
 
     const response = await fetch('/Task/Edit', {
@@ -224,7 +224,7 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
 let taskIdToDelete = null;
 const modalDelete = new bootstrap.Modal(document.getElementById('modal-confirm-delete'));
 
-document.getElementById('btn-confirm-delete').addEventListener('click', async function() {
+document.getElementById('btn-confirm-delete').addEventListener('click', async function () {
     if (!taskIdToDelete) return;
     const response = await fetch(`/Task/Delete/${taskIdToDelete}`, {
         method: 'DELETE'
@@ -241,7 +241,6 @@ document.getElementById('btn-confirm-delete').addEventListener('click', async fu
 });
 
 function renderTasks(tasks) {
-    // Considera undefined ou null como não excluído
     const filtered = tasks.filter(t => !t.deletedAt);
     const tasksDiv = document.getElementById('tasks');
     tasksDiv.innerHTML = '';
@@ -249,13 +248,12 @@ function renderTasks(tasks) {
         const isLast = i === filtered.length - 1;
         const borderClass = isLast ? '' : 'border-bottom';
 
-        // Determina a cor da data
         let dateClass = "";
         if (task.date) {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const taskDay = new Date(task.date);
-            taskDay.setHours(0,0,0,0);
+            taskDay.setHours(0, 0, 0, 0);
             const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
             if (diffDays < 0 && !task.isCompleted) {
                 dateClass = "text-danger";
@@ -320,7 +318,7 @@ function formatTaskDate(dateStr, timeStr) {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const taskDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
-    const hora = timeStr ? timeStr.substring(0,5) : "";
+    const hora = timeStr ? timeStr.substring(0, 5) : "";
     const sep = hora ? ", " : "";
 
     if (diffDays === 0)
@@ -393,7 +391,6 @@ document.getElementById('edit-button-important').addEventListener('click', funct
         icon.classList.add('bi-star');
         this.title = "Marcar como importante";
     }
-    // Não precisa atualizar nenhum campo hidden!
 });
 
 function filterTasks(predicate) {
@@ -415,14 +412,14 @@ document.getElementById('filter-week').addEventListener('click', function () {
     const now = new Date();
     const start = new Date(now);
     start.setDate(now.getDate() - now.getDay());
-    start.setHours(0,0,0,0);
+    start.setHours(0, 0, 0, 0);
     const end = new Date(start);
     end.setDate(start.getDate() + 7);
 
     filterTasks(t => {
         if (!t.date) return false;
         const taskDate = new Date(t.date);
-        taskDate.setHours(0,0,0,0);
+        taskDate.setHours(0, 0, 0, 0);
         return taskDate >= start && taskDate < end;
     });
     setActiveFilter(this);
@@ -439,6 +436,46 @@ function setActiveFilter(activeElem) {
 }
 
 document.querySelector('.navbar-brand').addEventListener('click', function () {
-    renderTasks(window.initialTasks); // Mostra todas as tarefas
-    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active')); // Remove destaque dos filtros
+    renderTasks(window.initialTasks);
+    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
 });
+
+document.getElementById('tasks').addEventListener('click', function (e) {
+    if (
+        e.target.closest('.btn-edit-task') ||
+        e.target.closest('.btn-delete-task') ||
+        e.target.closest('.dropdown') ||
+        e.target.closest('.dropdown-menu') ||
+        e.target.classList.contains('task-check')
+    ) return;
+
+    const taskDiv = e.target.closest('.task-item');
+    if (taskDiv) {
+        const taskId = taskDiv.getAttribute('data-task-id-div');
+        const task = window.initialTasks.find(t => t.id == taskId);
+        if (task) {
+            showTaskDetails(task);
+        }
+    }
+});
+
+// Detalhes da Tarefa
+function showTaskDetails(task) {
+    const modal = new bootstrap.Modal(document.getElementById('modal-task-details'));
+    document.getElementById('details-title').textContent = task.title;
+
+    const description = task.description ? task.description.replace(/\n/g, '<br>') : '-';
+    document.getElementById('details-description').innerHTML = description;
+
+    document.getElementById('details-date').textContent = task.date ? formatTaskDate(task.date, task.time) : '-';
+    document.getElementById('details-important').style.display = task.isImportant ? 'inline' : 'none';
+
+    if (task.categoryName && task.categoryColor) {
+        document.getElementById('details-category').innerHTML =
+            `<span class="badge" style="background-color:rgba(${task.categoryColor},.25);color:rgb(${task.categoryColor})">${task.categoryName}</span>`;
+    } else {
+        document.getElementById('details-category').innerHTML = '-';
+    }
+
+    modal.show();
+}
