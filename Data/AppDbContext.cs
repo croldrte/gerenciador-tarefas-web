@@ -33,7 +33,7 @@ namespace TaskManager.Data
                     IsCompleted = true,
                     IsImportant = true,
                     CategoryId = 1,
-                    CreatedAt = DateTime.Today.AddDays(-5) // Adicionado
+                    CreatedAt = DateTime.Today.AddDays(-5)
                 },
                 new Models.Task
                 {
@@ -43,9 +43,9 @@ namespace TaskManager.Data
                     Date = DateTime.Today.AddDays(1),
                     Time = new TimeSpan(18, 0, 0),
                     IsCompleted = false,
-                    IsImportant = true,
+                    IsImportant = false,
                     CategoryId = 2,
-                    CreatedAt = DateTime.Today.AddDays(-4) // Adicionado
+                    CreatedAt = DateTime.Today.AddDays(-4)
                 },
                 new Models.Task
                 {
@@ -57,7 +57,7 @@ namespace TaskManager.Data
                     IsCompleted = false,
                     IsImportant = false,
                     CategoryId = 3,
-                    CreatedAt = DateTime.Today.AddDays(-3) // Adicionado
+                    CreatedAt = DateTime.Today.AddDays(-3)
                 },
                 new Models.Task
                 {
@@ -69,7 +69,19 @@ namespace TaskManager.Data
                     IsCompleted = false,
                     IsImportant = false,
                     CategoryId = 4,
-                    CreatedAt = DateTime.Today.AddDays(-2) // Adicionado
+                    CreatedAt = DateTime.Today.AddDays(-2)
+                },
+                new Models.Task
+                {
+                    Id = 5,
+                    Title = "Enviar o TCC para revisão",
+                    Description = "Keynes, oferta e demanda, política fiscal. Formatar referências. E-mail: juvenal@universidade.com.",
+                    Date = DateTime.Today.AddDays(7),
+                    Time = new TimeSpan(23, 0, 0),
+                    IsCompleted = false,
+                    IsImportant = true,
+                    CategoryId = 2,
+                    CreatedAt = DateTime.Today.AddDays(-1)
                 }
             );
         }
