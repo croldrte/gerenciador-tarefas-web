@@ -397,37 +397,45 @@ function filterTasks(predicate) {
     renderTasks(window.initialTasks.filter(predicate));
 }
 
-document.getElementById('filter-important').addEventListener('click', function () {
-    filterTasks(t => t.isImportant);
-    setActiveFilter(this);
-});
-
-document.getElementById('filter-late').addEventListener('click', function () {
-    const now = new Date();
-    filterTasks(t => t.date && new Date(t.date) < new Date(now.getFullYear(), now.getMonth(), now.getDate()) && !t.isCompleted);
-    setActiveFilter(this);
-});
-
-document.getElementById('filter-week').addEventListener('click', function () {
-    const now = new Date();
-    const start = new Date(now);
-    start.setDate(now.getDate() - now.getDay());
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(start);
-    end.setDate(start.getDate() + 7);
-
-    filterTasks(t => {
-        if (!t.date) return false;
-        const taskDate = new Date(t.date);
-        taskDate.setHours(0, 0, 0, 0);
-        return taskDate >= start && taskDate < end;
+document.querySelectorAll('.filter-important').forEach(el => {
+    el.addEventListener('click', function () {
+        filterTasks(t => t.isImportant);
+        setActiveFilter(this);
     });
-    setActiveFilter(this);
 });
 
-document.getElementById('filter-done').addEventListener('click', function () {
-    filterTasks(t => t.isCompleted);
-    setActiveFilter(this);
+document.querySelectorAll('.filter-late').forEach(el => {
+    el.addEventListener('click', function () {
+        const now = new Date();
+        filterTasks(t => t.date && new Date(t.date) < new Date(now.getFullYear(), now.getMonth(), now.getDate()) && !t.isCompleted);
+        setActiveFilter(this);
+    });
+});
+
+document.querySelectorAll('.filter-week').forEach(el => {
+    el.addEventListener('click', function () {
+        const now = new Date();
+        const start = new Date(now);
+        start.setDate(now.getDate() - now.getDay());
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(start);
+        end.setDate(start.getDate() + 7);
+
+        filterTasks(t => {
+            if (!t.date) return false;
+            const taskDate = new Date(t.date);
+            taskDate.setHours(0, 0, 0, 0);
+            return taskDate >= start && taskDate < end;
+        });
+        setActiveFilter(this);
+    });
+});
+
+document.querySelectorAll('.filter-done').forEach(el => {
+    el.addEventListener('click', function () {
+        filterTasks(t => t.isCompleted);
+        setActiveFilter(this);
+    });
 });
 
 function setActiveFilter(activeElem) {
@@ -438,6 +446,21 @@ function setActiveFilter(activeElem) {
 document.querySelector('.navbar-brand').addEventListener('click', function () {
     renderTasks(window.initialTasks);
     document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const offcanvas = document.getElementById("filtersOffcanvas");
+
+    const filterButtons = offcanvas.querySelectorAll("[role='button']");
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+            if (bsOffcanvas) {
+                bsOffcanvas.hide();
+            }
+        });
+    });
 });
 
 document.getElementById('tasks').addEventListener('click', function (e) {

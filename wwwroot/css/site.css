@@ -87,7 +87,9 @@ hr {
   padding: 0;
 }
 
-.bi:hover, .btn-transparent:hover, .btn-transparent-2:hover {
+.bi:hover,
+.btn-transparent:hover,
+.btn-transparent-2:hover {
   color: rgb(var(--bs-primary-hover));
 }
 
