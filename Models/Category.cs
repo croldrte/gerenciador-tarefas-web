@@ -23,5 +23,9 @@ namespace TaskManager.Models
         public required string Color { get; set; }
 
         public ICollection<Task>? Tasks { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

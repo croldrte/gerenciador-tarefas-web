@@ -15,35 +15,45 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Busca tarefas e categorias do banco
         var tasks = _context.Tasks
             .Include(t => t.Category)
-            .AsEnumerable()
-            .OrderByDescending(t => t.Date.HasValue)
+            .Where(t => t.DeletedAt == null)
+            .AsEnumerable() // A partir daqui, LINQ to Objects (memória)
+            .OrderBy(t => t.Date == null) // Tarefas sem data vão para o final
             .ThenBy(t => t.Date)
+            .ThenBy(t => t.Time == null) // Tarefas sem hora vão para o final
             .ThenBy(t => t.Time)
             .ToList();
 
-        var model = new TaskAndCategoryViewModel
-        {
-            Tasks = tasks,
-            Categories = _context.Categories.ToList()
-        };
-
-        // Adicione esta linha:
-        ViewBag.TasksJson = System.Text.Json.JsonSerializer.Serialize(
-            tasks.Select(t => new {
+        var tasksForJs = tasks
+            .Select(t => new
+            {
                 id = t.Id,
                 title = t.Title,
                 description = t.Description,
+                date = t.Date.HasValue ? t.Date.Value.ToString("yyyy-MM-dd") : "",
+                time = t.Time.HasValue ? t.Time.Value.ToString(@"hh\:mm") : "",
+                categoryName = t.Category != null && t.Category.DeletedAt == null ? t.Category.Name : "",
+                categoryColor = t.Category != null && t.Category.DeletedAt == null ? t.Category.Color.ToRGB() : "#000000",
                 isCompleted = t.IsCompleted,
                 isImportant = t.IsImportant,
-                date = t.Date?.ToString("yyyy-MM-dd") ?? "",
-                time = t.Time?.ToString(@"hh\:mm") ?? "",
-                categoryName = t.Category?.Name ?? "",
-                categoryColor = t.Category != null ? t.Category.Color.ToRGB() : "#000000"
+                deletedAt = t.DeletedAt
             })
-        );
+            .ToList();
 
-        return View(model);
+        var categories = _context.Categories
+            .Where(c => c.DeletedAt == null)
+            .ToList();
+
+        ViewBag.TasksJson = System.Text.Json.JsonSerializer.Serialize(tasksForJs);
+
+        var viewModel = new TaskAndCategoryViewModel
+        {
+            Tasks = tasks,
+            Categories = categories
+        };
+
+        return View(viewModel);
     }
 }

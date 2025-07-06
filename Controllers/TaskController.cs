@@ -15,12 +15,10 @@ namespace TaskManager.Controllers
 
         public IActionResult Index()
         {
-            var model = new ViewModels.TaskAndCategoryViewModel
-            {
-                Tasks = _context.Tasks.ToList(),
-                Categories = _context.Categories.ToList()
-            };
-            return View(model);
+            var tasks = _context.Tasks
+                .Where(t => t.DeletedAt == null)
+                .ToList();
+            return View(tasks);
         }
 
         [HttpPost]
@@ -28,15 +26,16 @@ namespace TaskManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                task.CreatedAt = DateTime.UtcNow;
                 _context.Tasks.Add(task);
                 _context.SaveChanges();
 
-                var savedTask = _context.Tasks.FirstOrDefault(t => t.Id == task.Id);
+                var savedTask = _context.Tasks.FirstOrDefault(t => t.Id == task.Id && t.DeletedAt == null);
                 if (savedTask == null)
                 {
                     return Json(new { success = false, errors = new[] { "A tarefa não foi encontrada após ser salva." } });
                 }
-                var category = _context.Categories.FirstOrDefault(c => c.Id == savedTask.CategoryId);
+                var category = _context.Categories.FirstOrDefault(c => c.Id == savedTask.CategoryId && c.DeletedAt == null);
 
                 return Json(new
                 {
@@ -51,7 +50,8 @@ namespace TaskManager.Controllers
                         categoryName = category?.Name ?? "",
                         categoryColor = category != null ? category.Color.ToRGB() : "#000000",
                         isCompleted = savedTask.IsCompleted,
-                        isImportant = savedTask.IsImportant
+                        isImportant = savedTask.IsImportant,
+                        deletedAt = savedTask.DeletedAt
                     }
                 });
             }
@@ -62,7 +62,7 @@ namespace TaskManager.Controllers
         public IActionResult Get(int id)
         {
             var task = _context.Tasks
-                .Where(t => t.Id == id)
+                .Where(t => t.Id == id && t.DeletedAt == null)
                 .Select(t => new
                 {
                     id = t.Id,
@@ -72,7 +72,8 @@ namespace TaskManager.Controllers
                     time = t.Time.HasValue ? t.Time.Value.ToString(@"hh\:mm") : "",
                     categoryId = t.CategoryId,
                     isImportant = t.IsImportant,
-                    isCompleted = t.IsCompleted
+                    isCompleted = t.IsCompleted,
+                    deletedAt = t.DeletedAt
                 })
                 .FirstOrDefault();
 
@@ -85,7 +86,7 @@ namespace TaskManager.Controllers
         [HttpPost]
         public IActionResult Edit([FromBody] Models.Task task)
         {
-            var existing = _context.Tasks.FirstOrDefault(t => t.Id == task.Id);
+            var existing = _context.Tasks.FirstOrDefault(t => t.Id == task.Id && t.DeletedAt == null);
             if (existing == null)
                 return Json(new { success = false });
 
@@ -94,9 +95,11 @@ namespace TaskManager.Controllers
             existing.Date = task.Date;
             existing.Time = task.Time;
             existing.CategoryId = task.CategoryId;
+            existing.IsImportant = task.IsImportant; // <-- ESSENCIAL!
+            existing.UpdatedAt = DateTime.UtcNow;
             _context.SaveChanges();
 
-            var category = _context.Categories.FirstOrDefault(c => c.Id == task.CategoryId);
+            var category = _context.Categories.FirstOrDefault(c => c.Id == task.CategoryId && c.DeletedAt == null);
 
             return Json(new
             {
@@ -111,7 +114,8 @@ namespace TaskManager.Controllers
                     categoryName = category?.Name ?? "",
                     categoryColor = category != null ? category.Color.ToRGB() : "#000000",
                     isCompleted = existing.IsCompleted,
-                    isImportant = existing.IsImportant
+                    isImportant = existing.IsImportant,
+                    deletedAt = existing.DeletedAt
                 }
             });
         }
@@ -119,11 +123,11 @@ namespace TaskManager.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == id && t.DeletedAt == null);
             if (task == null)
                 return Json(new { success = false });
 
-            _context.Tasks.Remove(task);
+            task.DeletedAt = DateTime.UtcNow;
             _context.SaveChanges();
             return Json(new { success = true });
         }
@@ -131,7 +135,7 @@ namespace TaskManager.Controllers
         [HttpPost]
         public IActionResult Done(int id, bool isCompleted)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == id && t.DeletedAt == null);
             if (task == null)
                 return Json(new { success = false });
 

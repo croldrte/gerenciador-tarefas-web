@@ -1,4 +1,36 @@
-﻿let isImportant = false;
+﻿const toggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Mudar Tema
+function applyTheme(theme) {
+    body.setAttribute('data-bs-theme', theme);
+    if (theme === 'dark') {
+        toggleBtn.classList.remove('bi-sun');
+        toggleBtn.classList.add('bi-moon');
+    } else {
+        toggleBtn.classList.remove('bi-moon');
+        toggleBtn.classList.add('bi-sun');
+    }
+    localStorage.setItem('theme', theme);
+}
+
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+    applyTheme(savedTheme);
+} else {
+    applyTheme(prefersDark ? 'dark' : 'light');
+}
+
+toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-bs-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+});
+
+
+let isImportant = false;
 let editIsImportant = false;
 
 // Marcar como Importante
@@ -63,7 +95,7 @@ document.getElementById('form-add-task').addEventListener('submit', async functi
     }
 });
 
-document.getElementById('tasks').addEventListener('click', async function(e) {
+document.getElementById('tasks').addEventListener('click', async function (e) {
     if (e.target.classList.contains('btn-edit-task')) {
         e.preventDefault();
         const taskId = e.target.getAttribute('data-task-id');
@@ -99,11 +131,9 @@ document.getElementById('tasks').addEventListener('click', async function(e) {
         if (editIsImportant) {
             icon.classList.add('bi-star-fill');
             btn.title = "Desmarcar como importante";
-            document.getElementById('edit-task-isimportant').value = "true";
         } else {
             icon.classList.add('bi-star');
             btn.title = "Marcar como importante";
-            document.getElementById('edit-task-isimportant').value = "false";
         }
 
         var modal = new bootstrap.Modal(document.getElementById('modal-edit-task'));
@@ -117,7 +147,7 @@ document.getElementById('tasks').addEventListener('click', async function(e) {
     }
 });
 
-document.getElementById('tasks').addEventListener('change', async function(e) {
+document.getElementById('tasks').addEventListener('change', async function (e) {
     if (e.target.classList.contains('task-check')) {
         const taskDiv = e.target.closest('.task-item');
         const taskId = taskDiv.getAttribute('data-task-id-div');
@@ -179,7 +209,8 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
                 categoryName: result.task.categoryName,
                 categoryColor: result.task.categoryColor,
                 isCompleted: result.task.isCompleted,
-                isImportant: result.task.isImportant
+                isImportant: result.task.isImportant,
+                deletedAt: result.task.deletedAt
             };
             renderTasks(window.initialTasks);
         }
@@ -193,7 +224,7 @@ document.getElementById('form-edit-task').addEventListener('submit', async funct
 let taskIdToDelete = null;
 const modalDelete = new bootstrap.Modal(document.getElementById('modal-confirm-delete'));
 
-document.getElementById('btn-confirm-delete').addEventListener('click', async function() {
+document.getElementById('btn-confirm-delete').addEventListener('click', async function () {
     if (!taskIdToDelete) return;
     const response = await fetch(`/Task/Delete/${taskIdToDelete}`, {
         method: 'DELETE'
@@ -210,19 +241,19 @@ document.getElementById('btn-confirm-delete').addEventListener('click', async fu
 });
 
 function renderTasks(tasks) {
+    const filtered = tasks.filter(t => !t.deletedAt);
     const tasksDiv = document.getElementById('tasks');
     tasksDiv.innerHTML = '';
-    tasks.forEach((task, i) => {
-        const isLast = i === tasks.length - 1;
+    filtered.forEach((task, i) => {
+        const isLast = i === filtered.length - 1;
         const borderClass = isLast ? '' : 'border-bottom';
 
-        // Determina a cor da data
         let dateClass = "";
         if (task.date) {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const taskDay = new Date(task.date);
-            taskDay.setHours(0,0,0,0);
+            taskDay.setHours(0, 0, 0, 0);
             const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
             if (diffDays < 0 && !task.isCompleted) {
                 dateClass = "text-danger";
@@ -287,7 +318,7 @@ function formatTaskDate(dateStr, timeStr) {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const taskDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
-    const hora = timeStr ? timeStr.substring(0,5) : "";
+    const hora = timeStr ? timeStr.substring(0, 5) : "";
     const sep = hora ? ", " : "";
 
     if (diffDays === 0)
@@ -316,6 +347,33 @@ function addCategoryFilterListeners() {
     });
 }
 
+function setupCategorySelection(modalId, inputPrefix = '') {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.querySelectorAll(`.btn-check[name="CategoryId"]`).forEach(radio => {
+        radio.addEventListener('change', function () {
+            modal.querySelectorAll('.filter').forEach(label => label.classList.remove('active'));
+            const label = modal.querySelector(`label[for="${this.id}"]`);
+            if (label) label.classList.add('active');
+        });
+    });
+
+    modal.addEventListener('show.bs.modal', function () {
+        setTimeout(() => {
+            modal.querySelectorAll('.filter').forEach(label => label.classList.remove('active'));
+            const checked = modal.querySelector(`.btn-check[name="CategoryId"]:checked`);
+            if (checked) {
+                const label = modal.querySelector(`label[for="${checked.id}"]`);
+                if (label) label.classList.add('active');
+            }
+        }, 10);
+    });
+}
+
+setupCategorySelection('modal-add-task');
+setupCategorySelection('modal-edit-task');
+
 document.addEventListener('DOMContentLoaded', function () {
     renderTasks(window.initialTasks);
     addCategoryFilterListeners();
@@ -333,44 +391,51 @@ document.getElementById('edit-button-important').addEventListener('click', funct
         icon.classList.add('bi-star');
         this.title = "Marcar como importante";
     }
-    document.getElementById('edit-task-isimportant').value = editIsImportant;
 });
 
 function filterTasks(predicate) {
     renderTasks(window.initialTasks.filter(predicate));
 }
 
-document.getElementById('filter-important').addEventListener('click', function () {
-    filterTasks(t => t.isImportant);
-    setActiveFilter(this);
-});
-
-document.getElementById('filter-late').addEventListener('click', function () {
-    const now = new Date();
-    filterTasks(t => t.date && new Date(t.date) < new Date(now.getFullYear(), now.getMonth(), now.getDate()) && !t.isCompleted);
-    setActiveFilter(this);
-});
-
-document.getElementById('filter-week').addEventListener('click', function () {
-    const now = new Date();
-    const start = new Date(now);
-    start.setDate(now.getDate() - now.getDay());
-    start.setHours(0,0,0,0);
-    const end = new Date(start);
-    end.setDate(start.getDate() + 7);
-
-    filterTasks(t => {
-        if (!t.date) return false;
-        const taskDate = new Date(t.date);
-        taskDate.setHours(0,0,0,0);
-        return taskDate >= start && taskDate < end;
+document.querySelectorAll('.filter-important').forEach(el => {
+    el.addEventListener('click', function () {
+        filterTasks(t => t.isImportant);
+        setActiveFilter(this);
     });
-    setActiveFilter(this);
 });
 
-document.getElementById('filter-done').addEventListener('click', function () {
-    filterTasks(t => t.isCompleted);
-    setActiveFilter(this);
+document.querySelectorAll('.filter-late').forEach(el => {
+    el.addEventListener('click', function () {
+        const now = new Date();
+        filterTasks(t => t.date && new Date(t.date) < new Date(now.getFullYear(), now.getMonth(), now.getDate()) && !t.isCompleted);
+        setActiveFilter(this);
+    });
+});
+
+document.querySelectorAll('.filter-week').forEach(el => {
+    el.addEventListener('click', function () {
+        const now = new Date();
+        const start = new Date(now);
+        start.setDate(now.getDate() - now.getDay());
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(start);
+        end.setDate(start.getDate() + 7);
+
+        filterTasks(t => {
+            if (!t.date) return false;
+            const taskDate = new Date(t.date);
+            taskDate.setHours(0, 0, 0, 0);
+            return taskDate >= start && taskDate < end;
+        });
+        setActiveFilter(this);
+    });
+});
+
+document.querySelectorAll('.filter-done').forEach(el => {
+    el.addEventListener('click', function () {
+        filterTasks(t => t.isCompleted);
+        setActiveFilter(this);
+    });
 });
 
 function setActiveFilter(activeElem) {
@@ -379,6 +444,61 @@ function setActiveFilter(activeElem) {
 }
 
 document.querySelector('.navbar-brand').addEventListener('click', function () {
-    renderTasks(window.initialTasks); // Mostra todas as tarefas
-    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active')); // Remove destaque dos filtros
+    renderTasks(window.initialTasks);
+    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const offcanvas = document.getElementById("filtersOffcanvas");
+
+    const filterButtons = offcanvas.querySelectorAll("[role='button']");
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+            if (bsOffcanvas) {
+                bsOffcanvas.hide();
+            }
+        });
+    });
+});
+
+document.getElementById('tasks').addEventListener('click', function (e) {
+    if (
+        e.target.closest('.btn-edit-task') ||
+        e.target.closest('.btn-delete-task') ||
+        e.target.closest('.dropdown') ||
+        e.target.closest('.dropdown-menu') ||
+        e.target.classList.contains('task-check')
+    ) return;
+
+    const taskDiv = e.target.closest('.task-item');
+    if (taskDiv) {
+        const taskId = taskDiv.getAttribute('data-task-id-div');
+        const task = window.initialTasks.find(t => t.id == taskId);
+        if (task) {
+            showTaskDetails(task);
+        }
+    }
+});
+
+// Detalhes da Tarefa
+function showTaskDetails(task) {
+    const modal = new bootstrap.Modal(document.getElementById('modal-task-details'));
+    document.getElementById('details-title').textContent = task.title;
+
+    const description = task.description ? task.description.replace(/\n/g, '<br>') : '-';
+    document.getElementById('details-description').innerHTML = description;
+
+    document.getElementById('details-date').textContent = task.date ? formatTaskDate(task.date, task.time) : '-';
+    document.getElementById('details-important').style.display = task.isImportant ? 'inline' : 'none';
+
+    if (task.categoryName && task.categoryColor) {
+        document.getElementById('details-category').innerHTML =
+            `<span class="badge" style="background-color:rgba(${task.categoryColor},.25);color:rgb(${task.categoryColor})">${task.categoryName}</span>`;
+    } else {
+        document.getElementById('details-category').innerHTML = '-';
+    }
+
+    modal.show();
+}
