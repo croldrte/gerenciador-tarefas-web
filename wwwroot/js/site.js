@@ -1,4 +1,36 @@
-﻿let isImportant = false;
+﻿const toggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Mudar Tema
+function applyTheme(theme) {
+  body.setAttribute('data-bs-theme', theme);
+  if (theme === 'dark') {
+    toggleBtn.classList.remove('bi-sun');
+    toggleBtn.classList.add('bi-moon');
+  } else {
+    toggleBtn.classList.remove('bi-moon');
+    toggleBtn.classList.add('bi-sun');
+  }
+  localStorage.setItem('theme', theme);
+}
+
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+  applyTheme(savedTheme);
+} else {
+  applyTheme(prefersDark ? 'dark' : 'light');
+}
+
+toggleBtn.addEventListener('click', () => {
+  const currentTheme = body.getAttribute('data-bs-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+});
+
+
+let isImportant = false;
 let editIsImportant = false;
 
 // Marcar como Importante

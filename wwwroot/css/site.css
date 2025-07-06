@@ -1,10 +1,10 @@
 :root {
-  --bs-body-bg: white;
-  --bs-secondary-bg: #F9F9F9;
-  --bs-body-color: #66665A;
-  --bs-primary: #66665A;
-  --bs-primary-hover: #66665A;
-  --bs-primary-focus: #66665A;
+  --bs-body-bg: 255, 255, 255;
+  --bs-secondary-bg: 249, 249, 249;
+  --bs-body-color: 102, 102, 90;
+  --bs-primary: 102, 102, 90;
+  --bs-primary-hover: 132, 132, 120;
+  --bs-primary-focus: 72, 72, 60;
   --red: 255, 147, 139;
   --green: 106, 196, 109;
   --blue: 108, 182, 255;
@@ -15,15 +15,16 @@
 }
 
 body {
-  background-color: var(--bs-body-bg);
+  background-color: rgb(var(--bs-body-bg));
+  color: rgb(var(--bs-body-color));
 }
 
 hr {
-  background-color: var(--bs-body-color);
+  background-color: rgb(var(--bs-body-color));
 }
 
 ::placeholder {
-  color: var(--bs-body-color) !important;
+  color: rgb(var(--bs-body-color)) !important;
   opacity: .5 !important;
 }
 
@@ -38,15 +39,20 @@ hr {
   font-style: normal;
 }
 
+.border-bottom {
+  border-color: rgb(var(--bs-body-color), .25) !important;
+}
+
 .btn-delete-task:hover,
 #toggle-theme:hover {
-  color: var(--bs-primary-hover);
+  color: rgb(var(--bs-primary-hover));
   transition: color 0.2s;
 }
 
 .btn-primary {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
+  background-color: rgb(var(--bs-primary));
+  border-color: rgb(var(--bs-primary));
+  color: rgb(var(--bs-body-bg));
   padding: 0.5rem 1rem;
 }
 
@@ -59,18 +65,21 @@ hr {
 
 .btn-primary:disabled,
 .btn-primary.disabled {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
+  background-color: rgb(var(--bs-primary));
+  border-color: rgb(var(--bs-primary));
+  color: rgb(var(--bs-body-bg));
 }
 
 .btn-primary:hover {
-  background-color: var(--bs-primary-hover);
-  border-color: var(--bs-primary-hover);
+  background-color: rgb(var(--bs-primary-hover));
+  border-color: rgb(var(--bs-primary-hover));
+  color: rgb(var(--bs-body-bg));
 }
 
 .btn-primary:focus {
-  background-color: var(--bs-primary-hover);
-  border-color: var(--bs-primary-hover);
+  background-color: rgb(var(--bs-primary-hover));
+  border-color: rgb(var(--bs-primary-hover));
+  color: rgb(var(--bs-body-bg));
 }
 
 .btn-transparent {
@@ -78,9 +87,13 @@ hr {
   padding: 0;
 }
 
+.bi:hover, .btn-transparent:hover, .btn-transparent-2:hover {
+  color: rgb(var(--bs-primary-hover));
+}
+
 .btn-transparent-2 {
-  background-color: var(--bs-secondary-bg);
-  color: var(--bs-body-color);
+  background-color: rgb(var(--bs-secondary-bg));
+  color: rgb(var(--bs-body-color));
   border: 0;
   padding-right: .1rem;
 }
@@ -90,11 +103,22 @@ hr {
 }
 
 .category-name {
-  color: var(--bs-body-color);
+  color: rgb(var(--bs-body-color));
 }
 
 .dropdown-item {
-  color: var(--bs-body-color) !important;
+  color: rgb(var(--bs-body-color)) !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:active {
+  background-color: transparent !important;
+  color: rgb(var(--bs-primary-hover)) !important
+}
+
+.dropdown-menu {
+  background-color: rgb(var(--bs-secondary-bg));
+  border-color: rgb(var(--bs-body-color), .25);
 }
 
 .filter {
@@ -103,7 +127,7 @@ hr {
 
 .filter.active,
 .filter:hover {
-  background-color: var(--bs-secondary-bg);
+  background-color: rgb(var(--bs-secondary-bg));
 }
 
 .filter.active {
@@ -117,19 +141,19 @@ hr {
 
 .form-check-input {
   flex-shrink: 0;
-  border: 1px solid var(--bs-body-color);
+  border: 1px solid rgb(var(--bs-body-color));
 }
 
 .form-control,
 .form-control:focus {
-  background-color: var(--bs-secondary-bg);
-  color: var(--bs-body-color);
+  background-color: rgb(var(--bs-secondary-bg));
+  color: rgb(var(--bs-body-color));
   border: 0;
   resize: none;
 }
 
 .task-check {
-  background-color: var(--bs-body-bg);
+  background-color: rgb(var(--bs-body-bg));
   margin-right: 8px;
   border-radius: 50% !important;
   width: 1.2em;
@@ -137,8 +161,8 @@ hr {
 }
 
 .form-check-input:checked {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
+  background-color: rgb(var(--bs-primary));
+  border-color: rgb(var(--bs-primary));
 }
 
 #form-task .form-control {
@@ -156,7 +180,7 @@ hr {
 }
 
 .list-group-item {
-  color: var(--bs-body-color);
+  color: rgb(var(--bs-body-color));
   background: transparent;
   border: none;
   padding: 2px 0;
@@ -168,6 +192,7 @@ hr {
 }
 
 .modal-content {
+  background-color: rgb(var(--bs-body-bg));
   border-radius: 1rem;
   border: 0;
 }
@@ -200,7 +225,7 @@ hr {
 }
 
 .text-primary {
-  color: var(--bs-primary) !important;
+  color: rgb(var(--bs-primary)) !important;
 }
 
 .text-success {
