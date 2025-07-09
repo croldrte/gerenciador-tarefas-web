@@ -206,6 +206,10 @@ hr {
   cursor: pointer;
 }
 
+.offcanvas {
+  background-color: rgb(var(--bs-body-bg));
+}
+
 .pulse {
   animation: pulse 0.5s ease-in-out;
 }

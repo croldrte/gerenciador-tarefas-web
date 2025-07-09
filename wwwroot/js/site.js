@@ -249,16 +249,21 @@ function renderTasks(tasks) {
         const borderClass = isLast ? '' : 'border-bottom';
 
         let dateClass = "";
+
         if (task.date) {
             const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const taskDay = new Date(task.date);
-            taskDay.setHours(0, 0, 0, 0);
-            const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
-            if (diffDays < 0 && !task.isCompleted) {
+            const taskDate = new Date(task.date);
+
+            if (taskDate < now && !task.isCompleted) {
                 dateClass = "text-danger";
-            } else if ((diffDays === 0 || diffDays === 1) && !task.isCompleted) {
-                dateClass = "text-success";
+            } else {
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+
+                if (taskDate >= now && taskDate < tomorrow && !task.isCompleted) {
+                    dateClass = "text-success";
+                }
             }
         }
 
@@ -313,13 +318,16 @@ function renderTasks(tasks) {
 function formatTaskDate(dateStr, timeStr) {
     if (!dateStr) return "";
     const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    const date = new Date(dateStr + (timeStr ? 'T' + timeStr : ''));
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const [hour, minute] = timeStr ? timeStr.split(':').map(Number) : [0, 0];
+    const date = new Date(year, month - 1, day, hour, minute);
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const taskDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const diffDays = Math.floor((taskDay - today) / (1000 * 60 * 60 * 24));
     const hora = timeStr ? timeStr.substring(0, 5) : "";
     const sep = hora ? ", " : "";
+
 
     if (diffDays === 0)
         return `Hoje${sep}${hora}`;

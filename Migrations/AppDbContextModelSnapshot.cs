@@ -126,60 +126,60 @@ namespace tarefas_web.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Local),
-                            Date = new DateTime(2025, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Mandar pra Amanda: revisão detalhada dos contratos com fornecedores, ciclos de recebimento, dívidas de curto prazo.",
                             IsCompleted = true,
                             IsImportant = true,
-                            Time = new TimeSpan(0, 9, 0, 0, 0),
+                            Time = new TimeSpan(9, 0, 4, 10, 0),
                             Title = "Enviar relatório"
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
-                            CreatedAt = new DateTime(2025, 7, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            Date = new DateTime(2025, 7, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 7, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Oferta e demanda, estruturas de mercado, custo de produção, teorias econômicas. Capítulos 6 a 9.",
                             IsCompleted = false,
                             IsImportant = false,
-                            Time = new TimeSpan(0, 18, 0, 0, 0),
+                            Time = new TimeSpan(18, 0, 4, 10, 0),
                             Title = "Prova de economia"
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 3,
-                            CreatedAt = new DateTime(2025, 7, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            Date = new DateTime(2025, 7, 6, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 7, 6, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Pranayama – 5 minutos\r\nCão olhando para baixo – 3 minutos\r\nGato e vaca – 2 minutos\r\nGuerreiro 1 – 2 minutos\r\nGuerreiro 2 – 2 minutos\r\nPostura da criança – 3 minutos\r\nSavasana – 5 minutos",
                             IsCompleted = false,
                             IsImportant = false,
-                            Time = new TimeSpan(0, 7, 30, 0, 0),
+                            Time = new TimeSpan(8, 6, 4, 10, 0),
                             Title = "Fazer yoga"
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 4,
-                            CreatedAt = new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            Date = new DateTime(2025, 7, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 7, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Arroz\r\nFeijão\r\nMacarrão\r\nAveia\r\nPão integral\r\nLeite\r\nOvos\r\nBanana\r\nMaçã\r\nCenoura\r\nBrócolis\r\nTomate\r\nAlho\r\nCebola\r\nSabonete\r\nShampoo\r\nPasta de dente\r\nPapel higiênico\r\nCafé",
                             IsCompleted = false,
                             IsImportant = false,
-                            Time = new TimeSpan(0, 20, 0, 0, 0),
+                            Time = new TimeSpan(20, 0, 4, 10, 0),
                             Title = "Ir ao mercado"
                         },
                         new
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreatedAt = new DateTime(2025, 7, 5, 0, 0, 0, 0, DateTimeKind.Local),
-                            Date = new DateTime(2025, 7, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreatedAt = new DateTime(2025, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2025, 7, 16, 0, 0, 0, 0, DateTimeKind.Local),
                             Description = "Keynes, oferta e demanda, política fiscal. Formatar referências. E-mail: juvenal@universidade.com.",
                             IsCompleted = false,
                             IsImportant = true,
-                            Time = new TimeSpan(0, 23, 0, 0, 0),
+                            Time = new TimeSpan(23, 0, 4, 10, 0),
                             Title = "Enviar o TCC para revisão"
                         });
                 });

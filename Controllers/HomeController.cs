@@ -15,14 +15,13 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        // Busca tarefas e categorias do banco
         var tasks = _context.Tasks
             .Include(t => t.Category)
             .Where(t => t.DeletedAt == null)
-            .AsEnumerable() // A partir daqui, LINQ to Objects (memória)
-            .OrderBy(t => t.Date == null) // Tarefas sem data vão para o final
+            .AsEnumerable()
+            .OrderBy(t => t.Date == null)
             .ThenBy(t => t.Date)
-            .ThenBy(t => t.Time == null) // Tarefas sem hora vão para o final
+            .ThenBy(t => t.Time == null)
             .ThenBy(t => t.Time)
             .ToList();
 
